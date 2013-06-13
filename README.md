@@ -1,4 +1,6 @@
-ns-api
-======
+Yet Another NS-API
+==================
 
-Ruby client for the NS API
+A Ruby client for the NS API.
+
+In progress.

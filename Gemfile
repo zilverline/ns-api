@@ -4,5 +4,6 @@ gemspec
 
 group :test do
   gem 'rspec'
-
+  gem 'simplecov'
+  gem 'fakeweb'
 end
