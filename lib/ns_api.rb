@@ -17,7 +17,7 @@ module NSAPI
   class << self
 
     def stations
-
+      raise "Implement me!"
     end
 
   end
