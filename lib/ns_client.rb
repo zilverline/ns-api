@@ -42,6 +42,10 @@ class NSClient
     result
   end
 
+  def disruptions
+    []
+  end
+
   class Station
     attr_accessor :code, :type, :land, :short_name, :name, :long_name, :uiccode, :synonyms, :lat, :long
   end
