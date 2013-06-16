@@ -15,7 +15,7 @@ Pull requests are welcome.
 
 Usage
 =====
-First, make sure you have a username and password from the NS API website.
+First, make sure you have a username and password from the NS API website. (at: http://www.ns.nl/api)
 ```ruby
 require 'ns_client'
 
