@@ -23,13 +23,13 @@ describe NSClient do
       first_station.class.should == NSClient::Station
       first_station.type.should == "knooppuntIntercitystation"
       first_station.code.should == "HT"
-      first_station.short_name == "H'bosch"
-      first_station.name == "'s-Hertogenbosch"
-      first_station.long_name == "'s-Hertogenbosch"
-      first_station.land == "NL"
-      first_station.uiccode == "8400319"
-      first_station.lat == "51.69048"
-      first_station.long == "5.29362"
+      first_station.short_name.should == "H'bosch"
+      first_station.name.should == "'s-Hertogenbosch"
+      first_station.long_name.should == "'s-Hertogenbosch"
+      first_station.land.should == "NL"
+      first_station.uiccode.should == "8400319"
+      first_station.lat.should == "51.69048"
+      first_station.long.should == "5.29362"
     end
 
   end

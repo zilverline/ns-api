@@ -1,3 +1,4 @@
+require 'pathname'
 require 'time'
 require 'httpi'
 require 'nori'
@@ -31,11 +32,12 @@ class NSClient
       s.code = (station/'./Code').text
       s.type = (station/'./Type').text
       s.land = (station/'./Land').text
-      s.short_name = (station/'./Names/Kort').text
-      s.name = (station/'./Names/Middel').text
-      s.long_name = (station/'./Names/Lang').text
+      s.short_name = (station/'./Namen/Kort').text
+      s.name = (station/'./Namen/Middel').text
+      s.long_name = (station/'./Namen/Lang').text
       s.lat = (station/'./Lat').text
-      s.long = (station/'./Long').text
+      s.long = (station/'./Lon').text
+      s.uiccode = (station/'./UICCode').text
       result << s
     }
     result
