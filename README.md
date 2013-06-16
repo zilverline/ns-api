@@ -3,6 +3,13 @@ Yet Another NS API [![Build Status](https://travis-ci.org/stefanhendriks/ns-api.
 A Ruby client for the NS API.
 
 
+Goal
+====
+I'd like to write a comprehensive, yet very thin implementation of the NS API. For now I have limited access therefor this gem is limited.
+
+If you have credentials that I can use so I can expand this API, please send me a message.
+
+Pull requests are welcome.
 
 Usage
 =====
