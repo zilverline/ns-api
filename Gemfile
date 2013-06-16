@@ -10,4 +10,5 @@ group :test do
   gem 'rake'
   gem "webmock", "~> 1.11.0"
   gem 'mocha', require: 'mocha/api'
+  gem 'coveralls', require: false
 end
