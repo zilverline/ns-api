@@ -3,7 +3,7 @@ require 'spec_helper'
 describe NSClient do
 
   before :each do
-    @nsapi = NSClient.new("username", "password")
+    @nsclient = NSClient.new("username", "password")
   end
 
   context "Fetching stations from NS" do
@@ -13,13 +13,14 @@ describe NSClient do
     end
 
     it "should return all stations" do
-      stations = @nsapi.stations
+      stations = @nsclient.stations
       stations.size.should == 620
     end
 
     it "should return expected first station from list" do
-      stations = @nsapi.stations
+      stations = @nsclient.stations
       first_station = stations.first
+      first_station.class.should == NSClient::Station
       first_station.type.should == "knooppuntIntercitystation"
       first_station.code.should == "HT"
       first_station.short_name == "H'bosch"
