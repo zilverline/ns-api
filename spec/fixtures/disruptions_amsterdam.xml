@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Storingen>
+  <Ongepland>
+
+  </Ongepland>
+  <Gepland>
+
+    <Storing>
+      <id>2013_hrl_aachen_14_17jun</id>
+
+      <Traject>Heerlen-Aachen Hbf</Traject>
+
+
+      <Periode>vrijdag 14 juni tot en met maandag 17 juni 13.00 uur</Periode>
+
+
+      <Advies>U kunt gebruikmaken van de bus tussen Heerlen en Herzogenrath kunt u gebruikmaken van de bussen tussen
+        Heerlen en Heerlen de Kissel kunt u gebruikmaken van de reguliere busdienst van Veolia
+      </Advies>
+
+
+      <Bericht><![CDATA[
+        <p>
+            <b>Wanneer: vrijdag 14 juni tot en met maandag 17 juni 13.00 uur</b>
+            <br/>
+            <b>Oorzaak: aangepaste dienstregeling</b>
+            <br/>
+            <b>Advies: U kunt gebruikmaken van de bus</b>
+            <br/>	tussen Heerlen en Herzogenrath kunt u gebruikmaken van de bussen<br/>	tussen Heerlen en Heerlen de Kissel kunt u gebruikmaken van de reguliere busdienst van Veolia<br/><br/><b>Extra Reistijd: een kwartier tot een half uur</b><br/></p>
+    ]]></Bericht>
+
+
+      <Oorzaak>aangepaste dienstregeling</Oorzaak>
+
+
+      <Vertraging>een kwartier tot een half uur</Vertraging>
+
+    </Storing>
+
+    <Storing>
+      <id>2013_asd_basel_15_16jun</id>
+
+      <Traject>Amsterdam C-Koeln Hbf-Frankfurt (M) Hbf-Basel SBB</Traject>
+
+
+      <Periode>zaterdag 15 en zondag 16 juni</Periode>
+
+
+      <Advies>U kunt gebruikmaken van de gewijzigde dienstregeling door werkzaamheden rijdt ICE International via een
+        andere route daardoor stopt ICE International niet in Arnhem, Oberhausen, Duisburg en Duesseldorf, maar extra in
+        's-Hertogenbosch en Eindhoven en vaak ook in Moenchengladgach; de vertrek- en aankomsttijden op alle stations
+        zullen worden gewijzigd houdt u rekening met eerder vertrekken of later aankomen
+      </Advies>
+
+
+      <Bericht><![CDATA[
+        <p>
+            <b>Wanneer: zaterdag 15 en zondag 16 juni</b>
+            <br/>
+            <b>Oorzaak: door werkzaamheden</b>
+            <br/>
+            <b>Advies: U kunt gebruikmaken van de gewijzigde dienstregeling</b>
+            <br/>	door werkzaamheden rijdt ICE International via een andere route<br/>	daardoor stopt ICE International niet in Arnhem, Oberhausen, Duisburg en Duesseldorf, maar extra in 's-Hertogenbosch en Eindhoven en vaak ook in Moenchengladgach; de vertrek- en aankomsttijden op alle stations zullen worden gewijzigd<br/>	houdt u rekening met eerder vertrekken of later aankomen<br/><br/><b>Extra Reistijd: een uur</b><br/></p>
+    ]]></Bericht>
+
+
+      <Oorzaak>door werkzaamheden</Oorzaak>
+
+
+      <Vertraging>een uur</Vertraging>
+
+    </Storing>
+
+    <Storing>
+      <id>2013_amf_brn_ut_16jun</id>
+
+      <Traject>Amersfoort/Baarn/Utrecht Centraal</Traject>
+
+
+      <Periode>zondag 16 juni</Periode>
+
+
+      <Advies>U kunt gebruikmaken van de omgeleide Intercity, omreizen of van de bussen Intercity's tussen Amersfoort en
+        Utrecht Centraal rijden via Hilversum Sprinters tussen Baarn, Den Dolder en Utrecht Centraal rijden niet; er
+        rijdt elk kwartier een NS-bus tussen Baarn, Den Dolder en Utrecht Overvecht tussen Utrecht Overvecht en Utrecht
+        Centraal kunt u gebruikmaken van de Sprinters tussen Hilversum en Utrecht Centraal tussen Baarn en Utrecht
+        Overvecht/Utrecht Centraal kunt u omreizen via Hilversum
+      </Advies>
+
+
+      <Bericht><![CDATA[
+        <p>
+            <b>Wanneer: zondag 16 juni</b>
+            <br/>
+            <b>Oorzaak: door werkzaamheden</b>
+            <br/>
+            <b>Advies: U kunt gebruikmaken van de omgeleide Intercity, omreizen of van de bussen</b>
+            <br/>	Intercity's tussen Amersfoort en Utrecht Centraal rijden via Hilversum<br/>	Sprinters tussen Baarn, Den Dolder en Utrecht Centraal rijden niet; er rijdt elk kwartier een NS-bus tussen Baarn, Den Dolder en Utrecht Overvecht<br/>	tussen Utrecht Overvecht en Utrecht Centraal kunt u gebruikmaken van de Sprinters tussen Hilversum en Utrecht Centraal<br/>	tussen Baarn en Utrecht Overvecht/Utrecht Centraal kunt u omreizen via Hilversum<br/><br/><b>Extra Reistijd: een kwartier tot een half uur</b><br/></p>
+    ]]></Bericht>
+
+
+      <Oorzaak>door werkzaamheden</Oorzaak>
+
+
+      <Vertraging>een kwartier tot een half uur</Vertraging>
+
+    </Storing>
+
+    <Storing>
+      <id>2013_asd_bd_16jun</id>
+
+      <Traject>Amsterdam Centraal-Breda Fyra</Traject>
+
+
+      <Periode>zondag 16 juni</Periode>
+
+
+      <Advies>U kunt gebruikmaken van de overige treinen Tot 09.30 uur: de treinen die om 06.56, 07.26 en om 07.56 uur
+        uit Amsterdam Centraal zouden vertrekken, rijden uitsluitend tussen Schiphol en Rotterdam Centraal en stoppen
+        daardoor niet in Amsterdam Centraal en Breda de treinen die om 07.28, 07.58, 08.28, 08.58 en 09.28 uur uit Breda
+        zouden vertrekken, rijden niet tussen Breda en Rotterdam Centraal, maar uitsluitend tussen Rotterdam Centraal en
+        Schiphol daardoor stoppen deze treinen niet in Breda en Amsterdam Centraal Na 09.30 uur: Fyra rijdt de hele dag
+        uitsluitend tussen Schiphol, Rotterdam Centraal en Breda; daardoor stopt Fyra niet in Amsterdam Centraal we
+        adviseren u uw reis kort van te voren te plannen met behulp van de reisplanners
+      </Advies>
+
+
+      <Bericht><![CDATA[
+        <p>
+            <b>Wanneer: zondag 16 juni</b>
+            <br/>
+            <b>Oorzaak: door werkzaamheden</b>
+            <br/>
+            <b>Advies: U kunt gebruikmaken van de overige treinen</b>
+            <br/>	Tot 09.30 uur:<br/>	de treinen die om 06.56, 07.26 en om 07.56 uur uit Amsterdam Centraal zouden vertrekken, rijden uitsluitend tussen Schiphol en Rotterdam Centraal en stoppen daardoor niet in Amsterdam Centraal en Breda<br/>	de treinen die om 07.28, 07.58, 08.28, 08.58 en 09.28 uur uit Breda zouden vertrekken, rijden niet tussen Breda en Rotterdam Centraal, maar uitsluitend tussen Rotterdam Centraal en Schiphol<br/>	daardoor stoppen deze treinen niet in Breda en Amsterdam Centraal<br/>	Na 09.30 uur:<br/>	Fyra rijdt de hele dag uitsluitend tussen Schiphol, Rotterdam Centraal en Breda; daardoor stopt Fyra niet in Amsterdam Centraal<br/>	we adviseren u uw reis kort van te voren te plannen met behulp van de reisplanners<br/><br/><b>Extra Reistijd: een half uur tot een uur</b><br/></p>
+    ]]></Bericht>
+
+
+      <Oorzaak>door werkzaamheden</Oorzaak>
+
+
+      <Vertraging>een half uur tot een uur</Vertraging>
+
+    </Storing>
+
+  </Gepland>
+</Storingen>

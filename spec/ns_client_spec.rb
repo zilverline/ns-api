@@ -35,9 +35,28 @@ describe NSClient do
   end
 
   context "Disruptions" do
-    it "should retrieve all disruptions" do
-      @client.disruptions.should == []
+
+    it "should retrieve planned and unplanned disruptions" do
+      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?", load_fixture('disruptions.xml')
+      disruptions = @client.disruptions
+      disruptions.size.should == 2
+      disruptions[:planned].size.should == 1
+      disruptions[:unplanned].size.should == 1
     end
+
+    xit "should retrieve expected planned disruption"
+    xit "should retrieve expected unplanned disruption"
+
+    xit "should not return disruption when empty in response" do
+      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?", load_fixture('no_disruptions.xml')
+      disruptions = @client.disruptions
+      disruptions.size.should == 2
+      disruptions[:planned].size.should == 0
+      disruptions[:unplanned].size.should == 0
+    end
+
+    xit "should retrieve disruptions for station name" # ie, for Amsterdam only (http://webservices.ns.nl/ns-api-storingen?station=Amsterdam)
+
   end
 
   context "Prices" do

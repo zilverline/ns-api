@@ -43,7 +43,33 @@ class NSClient
   end
 
   def disruptions
-    []
+    response = @client.get "http://username:password@webservices.ns.nl/ns-api-storingen?"
+    result = {planned: [], unplanned: []}
+    xdoc = Nokogiri.XML(response.content)
+
+    (xdoc/'/Storingen').each { |disruption|
+
+      (disruption/'Ongepland').each { |unplanned|
+        # TODO: check if element has data
+        unplanned_disruption = UnplannedDisruption.new
+        result[:unplanned] << unplanned_disruption
+      }
+
+      (disruption/'Gepland').each { |planned|
+        # TODO: check if element has data
+        planned_disruption = PlannedDisruption.new
+        result[:planned] << planned_disruption
+      }
+    }
+    result
+  end
+
+  class UnplannedDisruption
+    # TODO: add properties
+  end
+
+  class PlannedDisruption
+    # TODO: add properties
   end
 
   class Station
