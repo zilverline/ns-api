@@ -9,7 +9,7 @@ describe NSClient do
   context "Fetching stations from NS" do
 
     before :each do
-      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-stations-v2", load_fixture('ns_stations.xml')
+      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-stations-v2", load_fixture('stations.xml')
     end
 
     it "should return all stations" do
