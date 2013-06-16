@@ -1,6 +1,5 @@
 require 'pathname'
 require 'time'
-require 'httpi'
 require 'nori'
 require 'nokogiri'
 
