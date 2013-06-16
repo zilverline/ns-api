@@ -1,10 +1,10 @@
 require 'simplecov'
 SimpleCov.start
 
-require 'fakeweb'
-FakeWeb.allow_net_connect = false
+require 'httpclient'
 
-require 'httpi'
+require 'mocha/api'
+require 'webmock/rspec'
 
 spec_helper = Pathname.new(__FILE__).realpath
 lib_path  = File.expand_path("../../lib", spec_helper)
