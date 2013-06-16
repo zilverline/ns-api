@@ -12,6 +12,11 @@ First, make sure you have a username and password from the NS API website.
 client = NSClient.new("my-username", "my-password")
 
 # get all known stations
-client.stations
+stations = client.stations
+station = stations.first
+station.name # 's-Hertogenbosch
+station.lat # 51.69048
+station.long # 5.29362
+
 ```
 
