@@ -34,16 +34,11 @@ describe NSClient do
 
   end
 
-
-
-def stub_ns_client_request(url, response)
-  stub_request(:get, url).
-      with(:headers => {'Authorization' => 'Basic dXNlcm5hbWU6cGFzc3dvcmQ='}).
-      to_return(:status => 200, :body => response, :headers => {})
-end
-
-def load_fixture(filename)
-  File.read(File.join($ROOT, "spec/fixtures/#{filename}"))
-end
+  def stub_ns_client_request(url, response)
+    # headers based on "username", "password"
+    stub_request(:get, url).
+        with(:headers => {'Authorization' => 'Basic dXNlcm5hbWU6cGFzc3dvcmQ='}).
+        to_return(:status => 200, :body => response, :headers => {})
+  end
 
 end

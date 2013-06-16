@@ -14,7 +14,3 @@ client = NSClient.new("my-username", "my-password")
 # get all stations known
 client.stations
 ```
-
-Versions
-========
-Compatible with NS API V2.
