@@ -7,7 +7,7 @@ Gem::Specification.new do |gem|
   gem.version       = '0.1'
   gem.authors       = ["Stefan Hendriks"]
   gem.email         = ["stefanhen83@gmail.com"]
-  gem.description   = %q{A Ruby client for the NS (Dutch Railways) API}
+  gem.description   = %q{Yet Another (Ruby) NS API}
   gem.summary       = %q{A Ruby client for the NS (Dutch Railways) API}
   gem.homepage      = "https://github.com/stefanhendriks/ns-api"
 
@@ -16,7 +16,8 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
-  gem.add_dependency 'httpi'
+  gem.add_dependency 'httpclient'
   gem.add_dependency 'nori'
   gem.add_dependency 'nokogiri'
+
 end

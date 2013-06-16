@@ -8,6 +8,8 @@ Usage
 =====
 First, make sure you have a username and password from the NS API website.
 ```ruby
+require 'ns_client'
+
 # get username/password from NS site
 client = NSClient.new("my-username", "my-password")
 
