@@ -15,6 +15,29 @@ Dir.glob(File.join(lib_path, '/**/*.rb')).each do |file|
   require file
 end
 
+module NSYapi
+
+  class Configuration
+    attr_accessor :username, :password
+  end
+
+  # Configures Plugin.
+  def self.configure(configuration = NSYapi::Configuration.new)
+    yield configuration if block_given?
+    @@configuration = configuration
+  end
+
+  def self.configuration # :nodoc:
+    @@configuration ||= Plugin::NSYapi.new
+  end
+
+  def self.client
+    @client_instance = NSClient.new(configuration.username, configuration.password) unless @client_instance
+    @client_instance
+  end
+
+end
+
 class NSClient
 
   def initialize(username, password)
@@ -49,13 +72,13 @@ class NSClient
 
     (xdoc/'/Storingen').each { |disruption|
 
-      (disruption/'Ongepland').each { |unplanned|
+      (disruption/'Ongepland/Storing').each { |unplanned|
         # TODO: check if element has data
         unplanned_disruption = UnplannedDisruption.new
         result[:unplanned] << unplanned_disruption
       }
 
-      (disruption/'Gepland').each { |planned|
+      (disruption/'Gepland/Storing').each { |planned|
         # TODO: check if element has data
         planned_disruption = PlannedDisruption.new
         result[:planned] << planned_disruption
