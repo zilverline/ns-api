@@ -54,3 +54,15 @@ station.lat # 51.69048
 station.long # 5.29362
 ```
 
+Retrieve disruptions
+====================
+```ruby
+# get all known disruptions
+disruptions = client.disruptions
+
+# get planned disruptions
+planned = disruptions[:planned]
+
+# get unplanned disruptions
+unplanned = disruptions[:unplanned]
+```

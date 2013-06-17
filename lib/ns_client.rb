@@ -73,6 +73,11 @@ class NSClient
 
       (disruption/'Ongepland/Storing').each { |unplanned|
         unplanned_disruption = UnplannedDisruption.new
+        unplanned_disruption.id = (unplanned/'./id').text
+        unplanned_disruption.trip = (unplanned/'./Traject').text
+        unplanned_disruption.reason = (unplanned/'./Reden').text
+        unplanned_disruption.message = (unplanned/'./Bericht').text
+        unplanned_disruption.datetime_string = (unplanned/'./Datum').text
         result[:unplanned] << unplanned_disruption
       }
 
@@ -90,6 +95,7 @@ class NSClient
   end
 
   class UnplannedDisruption
+    attr_accessor :id, :trip, :reason, :message, :datetime_string
   end
 
   class PlannedDisruption

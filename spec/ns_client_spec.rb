@@ -61,7 +61,17 @@ describe NSClient do
     end
 
     it "should retrieve expected unplanned disruption" do
-      pending("Not yet implemented")
+      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?", load_fixture('disruptions.xml')
+      disruptions = @client.disruptions
+      disruptions.size.should == 2
+      unplanned_disruption = disruptions[:unplanned].first
+      unplanned_disruption.class.should == NSClient::UnplannedDisruption
+
+      unplanned_disruption.id.should == "prio-13345"
+      unplanned_disruption.trip.should == "'s-Hertogenbosch-Nijmegen"
+      unplanned_disruption.reason.should == "beperkingen op last van de politie"
+      unplanned_disruption.message.should == "Another test message"
+      unplanned_disruption.datetime_string == "2010-12-16T11:16:00+0100" #intentional, give raw data. Let user parse if needed.
     end
 
     it "should not return disruption when empty in response" do
