@@ -52,10 +52,17 @@ describe NSClient do
       planned_disruption.class.should == NSClient::PlannedDisruption
 
       planned_disruption.id.should == "2010_almo_wp_18_19dec"
-      #planned_disruption.trip.should == "Almere Oostvaarders-Weesp/Naarden-Bussum"
+      planned_disruption.trip.should == "Almere Oostvaarders-Weesp/Naarden-Bussum"
+      planned_disruption.reason.should == "Beperkt treinverkeer, businzet en/of omreizen, extra reistijd 15-30 min."
+      planned_disruption.advice.should == "Maak gebruik van de overige treinen of de bussen: reis tussen Weesp en Almere Centrum met de NS-bus in
+        plaats van de trein tussen Almere Centrum en Lelystad Centrum rijden vier Sprinters per uur reis tussen Almere
+        Muziekwijk en Naarden-Bussum via Weesp"
+      planned_disruption.message.should == "Test message"
     end
 
-    xit "should retrieve expected unplanned disruption"
+    it "should retrieve expected unplanned disruption" do
+      pending("Not yet implemented")
+    end
 
     it "should not return disruption when empty in response" do
       stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?", load_fixture('no_disruptions.xml')

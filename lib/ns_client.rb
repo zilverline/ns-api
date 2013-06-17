@@ -79,6 +79,10 @@ class NSClient
       (disruption/'Gepland/Storing').each { |planned|
         planned_disruption = PlannedDisruption.new
         planned_disruption.id = (planned/'./id').text
+        planned_disruption.trip = (planned/'./Traject').text
+        planned_disruption.reason = (planned/'./Reden').text
+        planned_disruption.advice = (planned/'./Advies').text
+        planned_disruption.message = (planned/'./Bericht').text
         result[:planned] << planned_disruption
       }
     }
@@ -89,7 +93,7 @@ class NSClient
   end
 
   class PlannedDisruption
-    attr_accessor :id
+    attr_accessor :id, :trip, :reason, :advice, :message
   end
 
   class Station
