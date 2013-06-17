@@ -2,7 +2,6 @@ Yet Another NS API [![Build Status](https://travis-ci.org/stefanhendriks/ns-api.
 ==================
 A Ruby client for the NS API.
 
-
 Goal
 ====
 I'd like to write a comprehensive, yet very thin implementation of the NS API. For now I have limited access therefor this gem is limited.
@@ -16,18 +15,42 @@ Pull requests are welcome.
 Usage
 =====
 First, make sure you have a username and password from the NS API website. (at: http://www.ns.nl/api)
+
+You can use the NSYAPI singleton, you can configure it by using a configuration block:
+```ruby
+require 'ns_client'
+
+NSYapi::configure do |config|
+  config.username = "some-username"
+  config.password = "some-password"
+end
+
+client = NSYapi::client
+
+client.stations
+```
+
+or, you can instantiate the NSClient yourself, providing a username and password. You can then regulate the instance yourself.
+
 ```ruby
 require 'ns_client'
 
 # get username/password from NS site
 client = NSClient.new("my-username", "my-password")
 
+```
+
+After you have created a client, you can use it for several operations
+
+Retrieve all stations
+=====================
+
+```ruby
 # get all known stations
 stations = client.stations
 station = stations.first
 station.name # 's-Hertogenbosch
 station.lat # 51.69048
 station.long # 5.29362
-
 ```
 
