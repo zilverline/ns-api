@@ -65,7 +65,7 @@ class NSClient
   end
 
   def disruptions
-    response = @client.get "http://username:password@webservices.ns.nl/ns-api-storingen?"
+    response = @client.get "http://webservices.ns.nl/ns-api-storingen?"
     result = {planned: [], unplanned: []}
     xdoc = Nokogiri.XML(response.content)
 
