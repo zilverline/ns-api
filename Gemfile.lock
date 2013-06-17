@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ns-yapi (0.1.1)
+    ns-yapi (0.1.2)
       httpclient
       nokogiri
       nori

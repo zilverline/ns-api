@@ -21,14 +21,13 @@ module NSYapi
     attr_accessor :username, :password
   end
 
-  # Configures Plugin.
   def self.configure(configuration = NSYapi::Configuration.new)
     yield configuration if block_given?
     @@configuration = configuration
   end
 
   def self.configuration # :nodoc:
-    @@configuration ||= Plugin::NSYapi.new
+    @@configuration ||= NSYapi::Configuration.new
   end
 
   def self.client
