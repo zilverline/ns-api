@@ -70,5 +70,5 @@ unplanned = disruptions[:unplanned]
 disruptions = client.disruptions "Amsterdam"
 
 # will raise an NSClient::InvalidStationNameError error when station name is invalid
-client.disruptions "bla"
+client.disruptions "bla" # NSClient::InvalidStationNameError: Could not find a station with name 'bla'
 ```
