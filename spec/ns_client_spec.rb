@@ -103,7 +103,25 @@ describe NSClient do
   end
 
   context "Prices" do
-    xit "should retrieve prices for a trip"
+    it "should retrieve prices for a trip" do
+      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-prijzen-v2?from=Purmerend&to=Amsterdam&via=Zaandam&date=17062013", load_fixture('prices.xml')
+      date = Date.strptime('17-06-2013', '%d-%m-%Y')
+      response = @client.prices from: "Purmerend", to: "Amsterdam", via: "Zaandam", date: date
+      response.class.should == NSClient::PricesResponse
+      response.tariff_units.should == 10
+      response.products.size.should == 2
+
+      enkele_reis = response.products["Enkele reis"]
+      enkele_reis.size.should == 6
+    end
+
+    xit "should retrieve expected price data"
+
+    xit "assumes date is now, when not given"
+    xit "should treat via as optional parameter"
+    xit "should raise error when from is not given"
+    xit "should raise error when to is not given"
+
   end
 
   def stub_ns_client_request(url, response)

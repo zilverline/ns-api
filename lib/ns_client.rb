@@ -74,9 +74,9 @@ class NSClient
       raise InvalidStationNameError, message
     end
 
-    (xdoc/'/Storingen').each { |disruption|
+    (xdoc/'/Storingen').each do |disruption|
 
-      (disruption/'Ongepland/Storing').each { |unplanned|
+      (disruption/'Ongepland/Storing').each do |unplanned|
         unplanned_disruption = UnplannedDisruption.new
         unplanned_disruption.id = (unplanned/'./id').text
         unplanned_disruption.trip = (unplanned/'./Traject').text
@@ -84,9 +84,9 @@ class NSClient
         unplanned_disruption.message = (unplanned/'./Bericht').text
         unplanned_disruption.datetime_string = (unplanned/'./Datum').text
         result[:unplanned] << unplanned_disruption
-      }
+      end
 
-      (disruption/'Gepland/Storing').each { |planned|
+      (disruption/'Gepland/Storing').each do |planned|
         planned_disruption = PlannedDisruption.new
         planned_disruption.id = (planned/'./id').text
         planned_disruption.trip = (planned/'./Traject').text
@@ -94,16 +94,53 @@ class NSClient
         planned_disruption.advice = (planned/'./Advies').text
         planned_disruption.message = (planned/'./Bericht').text
         result[:planned] << planned_disruption
-      }
-    }
+      end
+    end
     result
   end
+
+  def prices (opts = {from: nil, to: nil, via: nil, date: nil})
+    date = opts[:date]
+    response = @client.get "http://@webservices.ns.nl/ns-api-prijzen-v2?from=#{opts[:from]}&to=#{opts[:to]}&via=#{opts[:via]}&date=#{date.strftime("%d%m%Y")}"
+    xdoc = Nokogiri.XML(response.content)
+    prices_response = PricesResponse.new
+    (xdoc/'/Producten').each do |products|
+      prices_response.tariff_units = (products/'./Tariefeenheden').text.to_i
+
+      (products/'Product').each do |product|
+        prices = []
+        (product/'Prijs').each do |price_element|
+          product_price = ProductPrice.new
+          product_price.amount = price_element.text
+          prices << product_price
+        end
+        name = product.attr('naam')
+        prices_response.products[name] = prices
+      end
+
+    end
+    prices_response
+  end
+
 
   def disruption_url(query)
     if query
       return "http://webservices.ns.nl/ns-api-storingen?station=#{query}"
     end
     "http://webservices.ns.nl/ns-api-storingen?"
+  end
+
+  class PricesResponse
+    attr_accessor :tariff_units, :products
+
+    def initialize
+      @products = {}
+      @tariff_units = 0
+    end
+  end
+
+  class ProductPrice
+    attr_accessor :discount, :class, :amount
   end
 
   class UnplannedDisruption
