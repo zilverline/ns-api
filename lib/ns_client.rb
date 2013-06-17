@@ -48,7 +48,7 @@ class NSClient
     response = @client.get "http://webservices.ns.nl/ns-api-stations-v2"
     result = []
     xdoc = Nokogiri.XML(response.content)
-    (xdoc/'/Stations/Station').each { |station|
+    (xdoc/'/Stations/Station').each do |station|
       s = Station.new
       s.code = (station/'./Code').text
       s.type = (station/'./Type').text
@@ -60,7 +60,7 @@ class NSClient
       s.long = (station/'./Lon').text
       s.uiccode = (station/'./UICCode').text
       result << s
-    }
+    end
     result
   end
 
@@ -68,6 +68,11 @@ class NSClient
     response = @client.get disruption_url(query)
     result = {planned: [], unplanned: []}
     xdoc = Nokogiri.XML(response.content)
+
+    (xdoc/'/error').each do |error|
+      message = (error/'./message').text
+      raise InvalidStationNameError, message
+    end
 
     (xdoc/'/Storingen').each { |disruption|
 
@@ -111,6 +116,10 @@ class NSClient
 
   class Station
     attr_accessor :code, :type, :land, :short_name, :name, :long_name, :uiccode, :synonyms, :lat, :long
+  end
+
+  class InvalidStationNameError < StandardError
+
   end
 
 end

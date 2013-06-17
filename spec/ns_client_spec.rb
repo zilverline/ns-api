@@ -82,13 +82,21 @@ describe NSClient do
       disruptions[:unplanned].size.should == 0
     end
 
-    it "should retrieve disruptions for station name" do
-      # ie, for Amsterdam only (http://webservices.ns.nl/ns-api-storingen?station=Amsterdam)
-      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?station=Amsterdam", load_fixture('disruptions_amsterdam.xml')
-      disruptions = @client.disruptions "Amsterdam"
-      disruptions.size.should == 2
-      disruptions[:planned].size.should == 4
-      disruptions[:unplanned].size.should == 0
+    describe "for a specific station" do
+
+      it "should retrieve disruptions for station name" do
+        # ie, for Amsterdam only (http://webservices.ns.nl/ns-api-storingen?station=Amsterdam)
+        stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?station=Amsterdam", load_fixture('disruptions_amsterdam.xml')
+        disruptions = @client.disruptions "Amsterdam"
+        disruptions.size.should == 2
+        disruptions[:planned].size.should == 4
+        disruptions[:unplanned].size.should == 0
+      end
+
+      it "should raise an error when using invalid station name" do
+        stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?station=bla", load_fixture('disruption_invalid_station_name.xml')
+        expect { @client.disruptions "bla" }.to raise_error(NSClient::InvalidStationNameError, "Could not find a station with name 'bla'")
+      end
     end
 
 

@@ -66,6 +66,9 @@ planned = disruptions[:planned]
 # get unplanned disruptions
 unplanned = disruptions[:unplanned]
 
-# get disruptions from specific station, ie Amsterdam
+# get disruptions from specific station, ie Amsterdam (case insensitive)
 disruptions = client.disruptions "Amsterdam"
+
+# will raise an NSClient::InvalidStationNameError error when station name is invalid
+client.disruptions "bla"
 ```
