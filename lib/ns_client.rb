@@ -72,14 +72,13 @@ class NSClient
     (xdoc/'/Storingen').each { |disruption|
 
       (disruption/'Ongepland/Storing').each { |unplanned|
-        # TODO: check if element has data
         unplanned_disruption = UnplannedDisruption.new
         result[:unplanned] << unplanned_disruption
       }
 
       (disruption/'Gepland/Storing').each { |planned|
-        # TODO: check if element has data
         planned_disruption = PlannedDisruption.new
+        planned_disruption.id = (planned/'./id').text
         result[:planned] << planned_disruption
       }
     }
@@ -87,11 +86,10 @@ class NSClient
   end
 
   class UnplannedDisruption
-    # TODO: add properties
   end
 
   class PlannedDisruption
-    # TODO: add properties
+    attr_accessor :id
   end
 
   class Station

@@ -7,7 +7,7 @@ Gem::Specification.new do |gem|
   gem.version       = '0.1.2'
   gem.authors       = ["Stefan Hendriks"]
   gem.email         = ["stefanhen83@gmail.com"]
-  gem.description   = %q{Yet Another (Ruby) NS API}
+  gem.description   = %q{Yet Another (Ruby) NS API client}
   gem.summary       = %q{A Ruby client for the NS (Dutch Railways) API}
   gem.homepage      = "https://github.com/stefanhendriks/ns-api"
 

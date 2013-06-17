@@ -44,10 +44,20 @@ describe NSClient do
       disruptions[:unplanned].size.should == 1
     end
 
-    xit "should retrieve expected planned disruption"
+    it "should retrieve expected planned disruption" do
+      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?", load_fixture('disruptions.xml')
+      disruptions = @client.disruptions
+      disruptions.size.should == 2
+      planned_disruption = disruptions[:planned].first
+      planned_disruption.class.should == NSClient::PlannedDisruption
+
+      planned_disruption.id.should == "2010_almo_wp_18_19dec"
+      #planned_disruption.trip.should == "Almere Oostvaarders-Weesp/Naarden-Bussum"
+    end
+
     xit "should retrieve expected unplanned disruption"
 
-    xit "should not return disruption when empty in response" do
+    it "should not return disruption when empty in response" do
       stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?", load_fixture('no_disruptions.xml')
       disruptions = @client.disruptions
       disruptions.size.should == 2
