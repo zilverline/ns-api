@@ -82,7 +82,15 @@ describe NSClient do
       disruptions[:unplanned].size.should == 0
     end
 
-    xit "should retrieve disruptions for station name" # ie, for Amsterdam only (http://webservices.ns.nl/ns-api-storingen?station=Amsterdam)
+    it "should retrieve disruptions for station name" do
+      # ie, for Amsterdam only (http://webservices.ns.nl/ns-api-storingen?station=Amsterdam)
+      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?station=Amsterdam", load_fixture('disruptions_amsterdam.xml')
+      disruptions = @client.disruptions "Amsterdam"
+      disruptions.size.should == 2
+      disruptions[:planned].size.should == 4
+      disruptions[:unplanned].size.should == 0
+    end
+
 
   end
 

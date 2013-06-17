@@ -64,8 +64,8 @@ class NSClient
     result
   end
 
-  def disruptions
-    response = @client.get "http://webservices.ns.nl/ns-api-storingen?"
+  def disruptions (query = nil)
+    response = @client.get disruption_url(query)
     result = {planned: [], unplanned: []}
     xdoc = Nokogiri.XML(response.content)
 
@@ -92,6 +92,13 @@ class NSClient
       }
     }
     result
+  end
+
+  def disruption_url(query)
+    if query
+      return "http://webservices.ns.nl/ns-api-storingen?station=#{query}"
+    end
+    "http://webservices.ns.nl/ns-api-storingen?"
   end
 
   class UnplannedDisruption

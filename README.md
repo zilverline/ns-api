@@ -65,4 +65,7 @@ planned = disruptions[:planned]
 
 # get unplanned disruptions
 unplanned = disruptions[:unplanned]
+
+# get disruptions from specific station, ie Amsterdam
+disruptions = client.disruptions "Amsterdam"
 ```
