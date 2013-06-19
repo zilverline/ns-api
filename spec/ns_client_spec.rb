@@ -58,6 +58,7 @@ describe NSClient do
         plaats van de trein tussen Almere Centrum en Lelystad Centrum rijden vier Sprinters per uur reis tussen Almere
         Muziekwijk en Naarden-Bussum via Weesp"
       planned_disruption.message.should == "Test message"
+      planned_disruption.cause.should == "oorzaak"
     end
 
     it "should retrieve expected unplanned disruption" do
@@ -70,6 +71,7 @@ describe NSClient do
       unplanned_disruption.id.should == "prio-13345"
       unplanned_disruption.trip.should == "'s-Hertogenbosch-Nijmegen"
       unplanned_disruption.reason.should == "beperkingen op last van de politie"
+      unplanned_disruption.cause.should == "oorzaak"
       unplanned_disruption.message.should == "Another test message"
       unplanned_disruption.datetime_string == "2010-12-16T11:16:00+0100" #intentional, give raw data. Let user parse if needed.
     end

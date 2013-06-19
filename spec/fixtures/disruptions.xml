@@ -6,6 +6,7 @@
       <Reden>beperkingen op last van de politie</Reden>
       <Bericht>Another test message</Bericht>
       <Datum>2010-12-16T11:16:00+0100</Datum>
+      <Oorzaak>oorzaak</Oorzaak>
     </Storing>
   </Ongepland>
   <Gepland>
@@ -18,6 +19,7 @@
         plaats van de trein tussen Almere Centrum en Lelystad Centrum rijden vier Sprinters per uur reis tussen Almere
         Muziekwijk en Naarden-Bussum via Weesp</Advies>
       <Bericht>Test message</Bericht>
+      <Oorzaak>oorzaak</Oorzaak>
     </Storing>
   </Gepland>
 </Storingen>

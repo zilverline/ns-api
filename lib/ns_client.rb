@@ -83,6 +83,7 @@ class NSClient
         unplanned_disruption.reason = (unplanned/'./Reden').text
         unplanned_disruption.message = (unplanned/'./Bericht').text
         unplanned_disruption.datetime_string = (unplanned/'./Datum').text
+        unplanned_disruption.cause = (unplanned/'./Oorzaak').text
         result[:unplanned] << unplanned_disruption
       end
 
@@ -93,6 +94,7 @@ class NSClient
         planned_disruption.reason = (planned/'./Reden').text
         planned_disruption.advice = (planned/'./Advies').text
         planned_disruption.message = (planned/'./Bericht').text
+        planned_disruption.cause = (planned/'./Oorzaak').text
         result[:planned] << planned_disruption
       end
     end
@@ -144,11 +146,11 @@ class NSClient
   end
 
   class UnplannedDisruption
-    attr_accessor :id, :trip, :reason, :message, :datetime_string
+    attr_accessor :id, :trip, :reason, :message, :datetime_string, :cause
   end
 
   class PlannedDisruption
-    attr_accessor :id, :trip, :reason, :advice, :message
+    attr_accessor :id, :trip, :reason, :advice, :message, :cause
   end
 
   class Station
