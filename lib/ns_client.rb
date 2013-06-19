@@ -127,7 +127,7 @@ class NSClient
     if query
       return "http://webservices.ns.nl/ns-api-storingen?station=#{query}"
     end
-    "http://webservices.ns.nl/ns-api-storingen?"
+    "http://webservices.ns.nl/ns-api-storingen?actual=true"
   end
 
   class PricesResponse

@@ -37,7 +37,7 @@ describe NSClient do
   context "Disruptions" do
 
     it "should retrieve planned and unplanned disruptions" do
-      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?", load_fixture('disruptions.xml')
+      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?actual=true", load_fixture('disruptions.xml')
       disruptions = @client.disruptions
       disruptions.size.should == 2
       disruptions[:planned].size.should == 1
@@ -45,7 +45,7 @@ describe NSClient do
     end
 
     it "should retrieve expected planned disruption" do
-      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?", load_fixture('disruptions.xml')
+      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?actual=true", load_fixture('disruptions.xml')
       disruptions = @client.disruptions
       disruptions.size.should == 2
       planned_disruption = disruptions[:planned].first
@@ -61,7 +61,7 @@ describe NSClient do
     end
 
     it "should retrieve expected unplanned disruption" do
-      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?", load_fixture('disruptions.xml')
+      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?actual=true", load_fixture('disruptions.xml')
       disruptions = @client.disruptions
       disruptions.size.should == 2
       unplanned_disruption = disruptions[:unplanned].first
@@ -75,7 +75,7 @@ describe NSClient do
     end
 
     it "should not return disruption when empty in response" do
-      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?", load_fixture('no_disruptions.xml')
+      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?actual=true", load_fixture('no_disruptions.xml')
       disruptions = @client.disruptions
       disruptions.size.should == 2
       disruptions[:planned].size.should == 0
