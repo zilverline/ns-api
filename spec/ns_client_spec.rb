@@ -134,7 +134,6 @@ describe NSClient do
       assert_price(response.enkele_reis[5], "reductie_40", "1", 2.5)
     end
 
-    xit "assumes date is now, when not given"
     xit "should treat via as optional parameter"
     xit "should raise error when from is not given"
     xit "should raise error when to is not given"

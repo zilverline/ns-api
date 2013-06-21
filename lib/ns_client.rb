@@ -102,8 +102,7 @@ class NSClient
   end
 
   def prices (opts = {from: nil, to: nil, via: nil, date: nil})
-    date = opts[:date]
-    response = @client.get "http://@webservices.ns.nl/ns-api-prijzen-v2?from=#{opts[:from]}&to=#{opts[:to]}&via=#{opts[:via]}&date=#{date.strftime("%d%m%Y")}"
+    response = @client.get prices_url(opts)
     xdoc = Nokogiri.XML(response.content)
     prices_response = PricesResponse.new
     (xdoc/'/Producten').each do |products|
@@ -126,6 +125,9 @@ class NSClient
     prices_response
   end
 
+  def prices_url(opts)
+    "http://@webservices.ns.nl/ns-api-prijzen-v2?from=#{opts[:from]}&to=#{opts[:to]}&via=#{opts[:via]}&date=#{opts[:date].strftime("%d%m%Y")}"
+  end
 
   def disruption_url(query)
     if query
