@@ -13,10 +13,13 @@ describe PricesUrl do
   let(:prices_url) { PricesUrl.new("hostname") }
 
   it "assumes date is now, when not given" do
-    @now = DateTime.new(2013, 6, 21)
-    Timecop.freeze(@now)
-    expected_date = "21062013"
+    Timecop.freeze(DateTime.new(2013, 6, 21))
+    expected_date = "21062013" #DDMMYYYY
     prices_url.url.should == "hostname?from=Amsterdam&to=Purmerend&date=#{expected_date}"
   end
 
+  it "uses given date" do
+    prices_url.url(date: Date.new(2013, 7, 12)).should == "hostname?from=Amsterdam&to=Purmerend&date=12072013"
+  end
+  
 end
