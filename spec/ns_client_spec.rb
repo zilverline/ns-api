@@ -105,6 +105,7 @@ describe NSClient do
   end
 
   context "Prices" do
+
     it "should retrieve prices for a trip" do
       stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-prijzen-v2?from=Purmerend&to=Amsterdam&via=Zaandam&date=17062013", load_fixture('prices.xml')
       date = Date.strptime('17-06-2013', '%d-%m-%Y')
@@ -113,17 +114,37 @@ describe NSClient do
       response.tariff_units.should == 10
       response.products.size.should == 2
 
-      enkele_reis = response.products["Enkele reis"]
-      enkele_reis.size.should == 6
+      response.enkele_reis.size.should == 6
+      response.dagretour.size.should == 6
     end
 
-    xit "should retrieve expected price data"
+    it "should retrieve expected price data" do
+      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-prijzen-v2?from=Purmerend&to=Amsterdam&via=Zaandam&date=17062013", load_fixture('prices.xml')
+      date = Date.strptime('17-06-2013', '%d-%m-%Y')
+      response = @client.prices from: "Purmerend", to: "Amsterdam", via: "Zaandam", date: date
+      response.class.should == NSClient::PricesResponse
+      response.tariff_units.should == 10
+      response.products.size.should == 2
+
+      assert_price(response.enkele_reis[0], "vol tarief", "2", 2.4)
+      assert_price(response.enkele_reis[1], "reductie_20", "2", 1.90)
+      assert_price(response.enkele_reis[2], "reductie_40", "2", 1.40)
+      assert_price(response.enkele_reis[3], "vol tarief", "1", 4.10)
+      assert_price(response.enkele_reis[4], "reductie_20", "1", 3.3)
+      assert_price(response.enkele_reis[5], "reductie_40", "1", 2.5)
+    end
 
     xit "assumes date is now, when not given"
     xit "should treat via as optional parameter"
     xit "should raise error when from is not given"
     xit "should raise error when to is not given"
 
+  end
+
+  def assert_price(element, expected_type, expected_train_class, expected_amount)
+    element.type.should == expected_type
+    element.train_class.should == expected_train_class
+    element.amount.should == expected_amount
   end
 
   def stub_ns_client_request(url, response)

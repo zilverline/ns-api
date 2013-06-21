@@ -113,7 +113,9 @@ class NSClient
         prices = []
         (product/'Prijs').each do |price_element|
           product_price = ProductPrice.new
-          product_price.amount = price_element.text
+          product_price.type = price_element.attr("korting")
+          product_price.train_class = price_element.attr("klasse")
+          product_price.amount = price_element.text.gsub(",", ".").to_f
           prices << product_price
         end
         name = product.attr('naam')
@@ -139,10 +141,19 @@ class NSClient
       @products = {}
       @tariff_units = 0
     end
+
+    def enkele_reis
+      products["Enkele reis"]
+    end
+
+    def dagretour
+      products["Dagretour"]
+    end
+
   end
 
   class ProductPrice
-    attr_accessor :discount, :class, :amount
+    attr_accessor :type, :train_class, :amount
   end
 
   class UnplannedDisruption
