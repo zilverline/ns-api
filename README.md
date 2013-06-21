@@ -73,6 +73,11 @@ disruptions = client.disruptions "Amsterdam"
 client.disruptions "bla" # NSClient::InvalidStationNameError: Could not find a station with name 'bla'
 ```
 
+Retrieve prices
+===============
+TBD
+
+
 Copyright
 ---------
 Copyright (c) 2013 Zilverline / Stefan Hendriks.
