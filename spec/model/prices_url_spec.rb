@@ -27,6 +27,11 @@ describe PricesUrl do
     prices_url.url(from:"Amsterdam", date: ANY_DATE).should == "hostname?from=#{expected_from}&to=&date=#{ANY_DATE_STR}"
   end
 
+  it "uses to" do
+    expected_to = "Purmerend"
+    prices_url.url(to:"Purmerend", date: ANY_DATE).should == "hostname?from=&to=#{expected_to}&date=#{ANY_DATE_STR}"
+  end
+
   ANY_DATE = Date.new(2013, 8, 13)
   ANY_DATE_STR = "13082013"
 
