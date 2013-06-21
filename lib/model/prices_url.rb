@@ -5,9 +5,9 @@ class PricesUrl
     @url = url
   end
 
-  def url (opts = {date: nil})
+  def url (opts = {date: nil, from: ""})
     opts[:date] ||= Date.today
-    "#{@url}?from=Amsterdam&to=Purmerend&date=#{opts[:date].strftime("%d%m%Y")}"
+    "#{@url}?from=#{opts[:from]}&to=&date=#{opts[:date].strftime("%d%m%Y")}"
   end
 
   class InvalidURL < StandardError

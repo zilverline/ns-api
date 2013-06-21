@@ -15,11 +15,19 @@ describe PricesUrl do
   it "assumes date is now, when not given" do
     Timecop.freeze(DateTime.new(2013, 6, 21))
     expected_date = "21062013" #DDMMYYYY
-    prices_url.url.should == "hostname?from=Amsterdam&to=Purmerend&date=#{expected_date}"
+    prices_url.url.should == "hostname?from=&to=&date=#{expected_date}"
   end
 
   it "uses given date" do
-    prices_url.url(date: Date.new(2013, 7, 12)).should == "hostname?from=Amsterdam&to=Purmerend&date=12072013"
+    prices_url.url(date: Date.new(2013, 7, 12)).should == "hostname?from=&to=&date=12072013"
   end
-  
+
+  it "uses from" do
+    expected_from = "Amsterdam"
+    prices_url.url(from:"Amsterdam", date: ANY_DATE).should == "hostname?from=#{expected_from}&to=&date=#{ANY_DATE_STR}"
+  end
+
+  ANY_DATE = Date.new(2013, 8, 13)
+  ANY_DATE_STR = "13082013"
+
 end
