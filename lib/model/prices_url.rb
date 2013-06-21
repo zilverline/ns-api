@@ -6,7 +6,7 @@ class PricesUrl
     @date = Date.today
   end
 
-  def to_s
+  def url
     "#{@url}?from=Amsterdam&to=Purmerend&date=#{@date.strftime("%d%m%Y")}"
   end
 

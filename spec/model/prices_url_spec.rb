@@ -16,7 +16,7 @@ describe PricesUrl do
     @now = DateTime.new(2013, 6, 21)
     Timecop.freeze(@now)
     expected_date = "21062013"
-    prices_url.to_s.should == "hostname?from=Amsterdam&to=Purmerend&date=#{expected_date}"
+    prices_url.url.should == "hostname?from=Amsterdam&to=Purmerend&date=#{expected_date}"
   end
 
 end
