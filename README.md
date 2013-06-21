@@ -72,3 +72,8 @@ disruptions = client.disruptions "Amsterdam"
 # will raise an NSClient::InvalidStationNameError error when station name is invalid
 client.disruptions "bla" # NSClient::InvalidStationNameError: Could not find a station with name 'bla'
 ```
+
+Copyright
+---------
+Copyright (c) 2013 Zilverline / Stefan Hendriks.
+See [LICENSE](https://github.com/zilverline/ns-api/blob/master/LICENSE.mkd) for details.
