@@ -46,10 +46,47 @@ class NSClient
   end
 
   def stations
-    response = @client.get "http://webservices.ns.nl/ns-api-stations-v2"
+    parse_stations(get_xml("http://webservices.ns.nl/ns-api-stations-v2"))
+  end
+
+  def disruptions (query = nil)
+    response_xml = get_xml(disruption_url(query))
+    raise_error_when_response_is_error(response_xml)
+    parse_disruptions(response_xml)
+  end
+
+  def prices (opts = {from: nil, to: nil, via: nil, date: nil})
+    raise MissingParameter, "from and to station is required" if (opts[:from] == nil && opts[:to] == nil)
+    raise MissingParameter, "from station is required" unless opts[:from]
+    raise MissingParameter, "to station is required" unless opts[:to]
+    parse_prices(get_xml(@prices_url.url(opts)))
+  end
+
+  def parse_prices(response_xml)
+    prices_response = PricesResponse.new
+    (response_xml/'/Producten').each do |products|
+      prices_response.tariff_units = (products/'./Tariefeenheden').text.to_i
+
+      (products/'Product').each do |product|
+        prices = []
+        (product/'Prijs').each do |price_element|
+          product_price = ProductPrice.new
+          product_price.type = price_element.attr("korting")
+          product_price.train_class = price_element.attr("klasse")
+          product_price.amount = price_element.text.gsub(",", ".").to_f
+          prices << product_price
+        end
+        name = product.attr('naam')
+        prices_response.products[name] = prices
+      end
+
+    end
+    prices_response
+  end
+
+  def parse_stations(response_xml)
     result = []
-    xdoc = Nokogiri.XML(response.content)
-    (xdoc/'/Stations/Station').each do |station|
+    (response_xml/'/Stations/Station').each do |station|
       s = Station.new
       s.code = (station/'./Code').text
       s.type = (station/'./Type').text
@@ -65,18 +102,9 @@ class NSClient
     result
   end
 
-  def disruptions (query = nil)
-    response = @client.get disruption_url(query)
+  def parse_disruptions(response_xml)
     result = {planned: [], unplanned: []}
-    xdoc = Nokogiri.XML(response.content)
-
-    (xdoc/'/error').each do |error|
-      message = (error/'./message').text
-      raise InvalidStationNameError, message
-    end
-
-    (xdoc/'/Storingen').each do |disruption|
-
+    (response_xml/'/Storingen').each do |disruption|
       (disruption/'Ongepland/Storing').each do |unplanned|
         unplanned_disruption = UnplannedDisruption.new
         unplanned_disruption.id = (unplanned/'./id').text
@@ -102,37 +130,20 @@ class NSClient
     result
   end
 
-  def prices (opts = {from: nil, to: nil, via: nil, date: nil})
-    raise MissingParameter, "from and to station is required" if (opts[:from] == nil && opts[:to] == nil)
-    raise MissingParameter, "from station is required" unless opts[:from]
-    raise MissingParameter, "to station is required" unless opts[:to]
-    response = @client.get @prices_url.url(opts)
-    xdoc = Nokogiri.XML(response.content)
-    prices_response = PricesResponse.new
-    (xdoc/'/Producten').each do |products|
-      prices_response.tariff_units = (products/'./Tariefeenheden').text.to_i
-
-      (products/'Product').each do |product|
-        prices = []
-        (product/'Prijs').each do |price_element|
-          product_price = ProductPrice.new
-          product_price.type = price_element.attr("korting")
-          product_price.train_class = price_element.attr("klasse")
-          product_price.amount = price_element.text.gsub(",", ".").to_f
-          prices << product_price
-        end
-        name = product.attr('naam')
-        prices_response.products[name] = prices
-      end
-
+  def raise_error_when_response_is_error(xdoc)
+    (xdoc/'/error').each do |error|
+      message = (error/'./message').text
+      raise InvalidStationNameError, message
     end
-    prices_response
+  end
+
+  def get_xml(url)
+    response = @client.get url
+    Nokogiri.XML(response.content)
   end
 
   def disruption_url(query)
-    if query
-      return "http://webservices.ns.nl/ns-api-storingen?station=#{query}"
-    end
+    return "http://webservices.ns.nl/ns-api-storingen?station=#{query}" if query
     "http://webservices.ns.nl/ns-api-storingen?actual=true"
   end
 
