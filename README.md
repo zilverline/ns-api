@@ -1,4 +1,4 @@
-Yet Another NS API [![Build Status](https://travis-ci.org/stefanhendriks/ns-api.png?branch=master)](https://travis-ci.org/stefanhendriks/ns-api) [![Coverage Status](https://coveralls.io/repos/stefanhendriks/ns-api/badge.png)](https://coveralls.io/r/stefanhendriks/ns-api) [![Dependency Status](https://gemnasium.com/stefanhendriks/ns-api.png)](https://gemnasium.com/stefanhendriks/ns-api)
+Yet Another NS API [![Build Status](https://travis-ci.org/stefanhendriks/ns-api.png?branch=master)](https://travis-ci.org/stefanhendriks/ns-api) [![Coverage Status](https://coveralls.io/repos/stefanhendriks/ns-api/badge.png)](https://coveralls.io/r/stefanhendriks/ns-api)
 ==================
 A Ruby client for the NS API.
 
@@ -75,8 +75,47 @@ client.disruptions "bla" # NSClient::InvalidStationNameError: Could not find a s
 
 Retrieve prices
 ===============
-TBD
+Note: for now this is built against a stubbed response. So until this has not been really tested with a real system, this
+part is not yet released within the gem.
 
+```ruby
+# retrieving prices requires a from and to at minimum. Which assumes prices for today
+prices = client.prices from: "Amsterdam", to: "Purmerend"
+
+# if you'd rather retrieve prices for a specific date, this is an optional parameter. If not given, today is assumed.
+tomorrow = Date.today + 1.day
+prices_tomorrow = client.prices from: "Amsterdam", to: "Purmerend", date: tomorrow
+
+# you can specify a via option, this is also optional
+prices_via = client.prices from: "Amsterdam", to: "Purmerend", via: "Zaandam"
+
+# retrieve prices for tomorrow, via specific station
+prices_via_tomorrow = client.prices from: "Amsterdam", to: "Purmerend", via: "Zaandam", date: tomorrow
+```
+
+Response data
+-------------
+A prices response is a hash with arrays. Each key of the hash is the type of prices (ie 'Dagretour', or 'Enkele reis').
+In case different types would be added by the NS, than this API will simply add them to the hash, which makes it quite flexible.
+
+```ruby
+prices = client.prices from: "Amsterdam", to: "Purmerend"
+
+# show tarif units (tariefeenheden)
+prices.tariff_units # 10
+
+# show prices for "Dagretour'
+dagretour_prices = prices.dagretour # prices is a hash
+
+# first price for "Dagretour"
+dagretour_prices[0].type # vol tarief
+dagretour_prices[0].train_class # "2"
+dagretour_prices[0].amount # 2.40
+
+# show prices for "Enkele reis'
+enkelereis_prices = prices.enkelereis
+
+```
 
 Copyright
 ---------
