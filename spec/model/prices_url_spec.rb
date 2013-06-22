@@ -32,6 +32,18 @@ describe PricesUrl do
     prices_url.url(to:"Purmerend", date: ANY_DATE).should == "hostname?from=&to=#{expected_to}&date=#{ANY_DATE_STR}"
   end
 
+  it "uses via" do
+    expected_via = "Zaandam"
+    prices_url.url(via:"Zaandam", date: ANY_DATE).should == "hostname?from=&to=&via=#{expected_via}&date=#{ANY_DATE_STR}"
+  end
+
+  it "uses any combination of from/to/via" do
+    prices_url.url(from:"Purmerend",to: "Amsterdam", via:"Zaandam", date: ANY_DATE).should == "hostname?from=Purmerend&to=Amsterdam&via=Zaandam&date=#{ANY_DATE_STR}"
+    prices_url.url(from:"Purmerend",to: "Amsterdam", via:"Zaandam", date: ANY_DATE).should == "hostname?from=Purmerend&to=Amsterdam&via=Zaandam&date=#{ANY_DATE_STR}"
+    prices_url.url(from:"Purmerend",to: "Amsterdam", via:"Zaandam", date: ANY_DATE).should == "hostname?from=Purmerend&to=Amsterdam&via=Zaandam&date=#{ANY_DATE_STR}"
+    prices_url.url(from:"Purmerend",to: "Amsterdam", via:"Zaandam", date: ANY_DATE).should == "hostname?from=Purmerend&to=Amsterdam&via=Zaandam&date=#{ANY_DATE_STR}"
+  end
+
   ANY_DATE = Date.new(2013, 8, 13)
   ANY_DATE_STR = "13082013"
 
