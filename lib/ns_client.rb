@@ -103,6 +103,9 @@ class NSClient
   end
 
   def prices (opts = {from: nil, to: nil, via: nil, date: nil})
+    raise MissingParameter, "from and to station is required" if (opts[:from] == nil && opts[:to] == nil)
+    raise MissingParameter, "from station is required" unless opts[:from]
+    raise MissingParameter, "to station is required" unless opts[:to]
     response = @client.get @prices_url.url(opts)
     xdoc = Nokogiri.XML(response.content)
     prices_response = PricesResponse.new
@@ -168,7 +171,9 @@ class NSClient
   end
 
   class InvalidStationNameError < StandardError
+  end
 
+  class MissingParameter < StandardError
   end
 
 end

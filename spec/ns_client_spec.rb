@@ -134,9 +134,23 @@ describe NSClient do
       assert_price(response.enkele_reis[5], "reductie_40", "1", 2.5)
     end
 
-    xit "should treat via as optional parameter"
-    xit "should raise error when from is not given"
-    xit "should raise error when to is not given"
+    it "should raise error when from is not given" do
+      expect {
+        @client.prices from: nil, to: "Amsterdam"
+      }.to raise_error(NSClient::MissingParameter, "from station is required")
+    end
+
+    it "should raise error when to is not given" do
+      expect {
+        @client.prices from: "Purmerend", to: nil
+      }.to raise_error(NSClient::MissingParameter, "to station is required")
+    end
+
+    it "should raise error complaining about from and to missing when both not given" do
+      expect {
+        @client.prices from: nil, to: nil
+      }.to raise_error(NSClient::MissingParameter, "from and to station is required")
+    end
 
   end
 

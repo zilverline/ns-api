@@ -5,7 +5,7 @@ class PricesUrl
     @url = url
   end
 
-  def url (opts = {date: nil, from: ""})
+  def url (opts = {date: nil, from: "", to: ""})
     opts[:date] ||= Date.today
     url = "#{@url}?from=#{opts[:from]}&to=#{opts[:to]}&date=#{opts[:date].strftime("%d%m%Y")}"
     url += "&via=#{opts[:via]}" if opts[:via]
