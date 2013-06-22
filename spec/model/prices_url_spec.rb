@@ -34,14 +34,11 @@ describe PricesUrl do
 
   it "uses via" do
     expected_via = "Zaandam"
-    prices_url.url(via:"Zaandam", date: ANY_DATE).should == "hostname?from=&to=&via=#{expected_via}&date=#{ANY_DATE_STR}"
+    prices_url.url(via:"Zaandam", date: ANY_DATE).should == "hostname?from=&to=&date=#{ANY_DATE_STR}&via=#{expected_via}"
   end
 
-  it "uses any combination of from/to/via" do
-    prices_url.url(from:"Purmerend",to: "Amsterdam", via:"Zaandam", date: ANY_DATE).should == "hostname?from=Purmerend&to=Amsterdam&via=Zaandam&date=#{ANY_DATE_STR}"
-    prices_url.url(from:"Purmerend",to: "Amsterdam", via:"Zaandam", date: ANY_DATE).should == "hostname?from=Purmerend&to=Amsterdam&via=Zaandam&date=#{ANY_DATE_STR}"
-    prices_url.url(from:"Purmerend",to: "Amsterdam", via:"Zaandam", date: ANY_DATE).should == "hostname?from=Purmerend&to=Amsterdam&via=Zaandam&date=#{ANY_DATE_STR}"
-    prices_url.url(from:"Purmerend",to: "Amsterdam", via:"Zaandam", date: ANY_DATE).should == "hostname?from=Purmerend&to=Amsterdam&via=Zaandam&date=#{ANY_DATE_STR}"
+  it "uses any all variables for from/to/via" do
+    prices_url.url(from:"Purmerend",to: "Amsterdam", via:"Zaandam", date: ANY_DATE).should == "hostname?from=Purmerend&to=Amsterdam&date=#{ANY_DATE_STR}&via=Zaandam"
   end
 
   ANY_DATE = Date.new(2013, 8, 13)
