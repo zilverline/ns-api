@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |gem|
   gem.name          = "ns-yapi"
-  gem.version       = '0.2.1'
+  gem.version       = '0.3.0'
   gem.authors       = ["Stefan Hendriks"]
   gem.email         = ["stefanhen83@gmail.com"]
   gem.description   = %q{Yet Another (Ruby) NS API client}

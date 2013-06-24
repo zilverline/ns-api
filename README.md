@@ -54,6 +54,15 @@ station.lat # 51.69048
 station.long # 5.29362
 ```
 
+If you find it too tedious ploughing through all objects in the array, you can also use the ```stations_short``` method. This will return a hash with the station code as key, the
+value is an array with the name and country of the station.
+
+```ruby
+1.9.3p194 :003 > client.stations_short
+ => {"HT"=>["'s-Hertogenbosch", "NL"], "HTO"=>["Hertogenbosch O.", "NL"], "HDE"=>["'t Harde", "NL"], "AHBF"=>["Aachen", "D"], "ARE"=>["Aachen R. Erde", "D"], "ASCH"=>["Aachen Schanz", "D"], "AW"=>["Aachen-West", "D"], "ATN"=>["Aalten", "NL"], "AC"=>["Abcoude", "NL"], "EAHS"=>["Ahaus", "D"], "AIME"=>["Aime-la-Plagne", "F"], "AIXTGV"=>["Aix-en-Provence", "F"], "AKM"=>["Akkrum", "NL"], "ALBERT"=>["Albertville", "F"], "ALESS"=>["Alessandria", "I"], "AMR"=>["Alkmaar", "NL"], "AMRN"=>["Alkmaar Noord", "NL"], "AML"=>["Almelo", "NL"], "AMRI"=>["Almelo de Riet", "NL"], "ALMB"=>["Almere Buiten", "NL"], "ALM"=>["Almere C.", "NL"], "ALMM"=>["Muziekwijk", "NL"], "ALMO"=>["Oostvaarders", "NL"], "ALMP"=>["Parkwijk", "NL"], "AMPO"=>["Poort", "NL"], "APN"=>["Alphen a/d Rijn", "NL"], "EABG"=>["Altenberge", "D"], "AMF"=>["Amersfoort", "NL"], "AMFS"=>["Schothorst", "NL"]....
+```
+
+
 Retrieve disruptions
 ====================
 ```ruby
@@ -75,47 +84,57 @@ client.disruptions "bla" # NSClient::InvalidStationNameError: Could not find a s
 
 Retrieve prices
 ===============
-Note: for now this is built against a stubbed response. So until this has not been really tested with a real system, this
-part is not yet released within the gem.
+Prices can be retrieved by using a valid ```from```,```to```,```via``` parameter. You can use the name of the station or the code. (as you can see above with the stations calls)
 
 ```ruby
 # retrieving prices requires a from and to at minimum. Which assumes prices for today
-prices = client.prices from: "Amsterdam", to: "Purmerend"
+prices = client.prices from: "Amsterdam Centraal", to: "Purmerend"
 
 # if you'd rather retrieve prices for a specific date, this is an optional parameter. If not given, today is assumed.
 tomorrow = Date.today + 1.day
-prices_tomorrow = client.prices from: "Amsterdam", to: "Purmerend", date: tomorrow
+prices_tomorrow = client.prices from: "Amsterdam Centraal", to: "Purmerend", date: tomorrow
 
 # you can specify a via option, this is also optional
-prices_via = client.prices from: "Amsterdam", to: "Purmerend", via: "Zaandam"
+prices_via = client.prices from: "Amsterdam Centraal", to: "Purmerend", via: "Zaandam"
 
 # retrieve prices for tomorrow, via specific station
-prices_via_tomorrow = client.prices from: "Amsterdam", to: "Purmerend", via: "Zaandam", date: tomorrow
+prices_via_tomorrow = client.prices from: "Amsterdam Centraal", to: "Purmerend", via: "Zaandam", date: tomorrow
+```
+
+Invalid station names
+---------------------
+When you provide an invalid station name for the ```from```, ```to``` or ```via``` argument, an InvalidStationNameError will be raised telling you.
+```ruby
+prices = client.prices from: "Amsterdam", to "Purmerend"
+# NSClient::InvalidStationNameError: 'Amsterdam' is not a valid station name
 ```
 
 Response data
 -------------
-A prices response is a hash with arrays. Each key of the hash is the type of prices (ie 'Dagretour', or 'Enkele reis').
+A prices response is an object PricesResponse, which contains tariffunits (a measurement for cost-distance) and a hash with prices.
+
+Each key in this hash is the type of prices (ie 'Dagretour', or 'Enkele reis').
+
 In case different types would be added by the NS, than this API will simply add them to the hash, which makes it quite flexible.
 
 ```ruby
-prices = client.prices from: "Amsterdam", to: "Purmerend"
+prices = client.prices from: "Amsterdam Centraal", to: "Purmerend"
 
 # show tarif units (tariefeenheden)
 prices.tariff_units # 10
 
-# show prices for "Dagretour'
-dagretour_prices = prices.dagretour # prices is a hash
+# show prices for "Dagretour", easy method
+dagretour_prices = prices.dagretour # is same as prices.products["Dagretour"]
 
-# first price for "Dagretour"
+# first price for "Dagretour", contains three values
 dagretour_prices[0].type # vol tarief
 dagretour_prices[0].train_class # "2"
 dagretour_prices[0].amount # 2.40
 
-# show prices for "Enkele reis'
+# show prices for "Enkele reis", easy method
 enkelereis_prices = prices.enkelereis
-
 ```
+
 
 Copyright
 ---------
