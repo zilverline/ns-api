@@ -58,7 +58,7 @@ If you find it too tedious ploughing through all objects in the array, you can a
 value is an array with the name and country of the station.
 
 ```ruby
-1.9.3p194 :003 > client.stations_short
+client.stations_short
  => {"HT"=>["'s-Hertogenbosch", "NL"], "HTO"=>["Hertogenbosch O.", "NL"], "HDE"=>["'t Harde", "NL"], "AHBF"=>["Aachen", "D"], "ARE"=>["Aachen R. Erde", "D"], "ASCH"=>["Aachen Schanz", "D"], "AW"=>["Aachen-West", "D"], "ATN"=>["Aalten", "NL"], "AC"=>["Abcoude", "NL"], "EAHS"=>["Ahaus", "D"], "AIME"=>["Aime-la-Plagne", "F"], "AIXTGV"=>["Aix-en-Provence", "F"], "AKM"=>["Akkrum", "NL"], "ALBERT"=>["Albertville", "F"], "ALESS"=>["Alessandria", "I"], "AMR"=>["Alkmaar", "NL"], "AMRN"=>["Alkmaar Noord", "NL"], "AML"=>["Almelo", "NL"], "AMRI"=>["Almelo de Riet", "NL"], "ALMB"=>["Almere Buiten", "NL"], "ALM"=>["Almere C.", "NL"], "ALMM"=>["Muziekwijk", "NL"], "ALMO"=>["Oostvaarders", "NL"], "ALMP"=>["Parkwijk", "NL"], "AMPO"=>["Poort", "NL"], "APN"=>["Alphen a/d Rijn", "NL"], "EABG"=>["Altenberge", "D"], "AMF"=>["Amersfoort", "NL"], "AMFS"=>["Schothorst", "NL"]....
 ```
 
@@ -99,18 +99,15 @@ prices_via = client.prices from: "Amsterdam Centraal", to: "Purmerend", via: "Za
 
 # retrieve prices for tomorrow, via specific station
 prices_via_tomorrow = client.prices from: "Amsterdam Centraal", to: "Purmerend", via: "Zaandam", date: tomorrow
-```
 
-Invalid station names
----------------------
-When you provide an invalid station name for the ```from```, ```to``` or ```via``` argument, an InvalidStationNameError will be raised telling you.
-```ruby
-prices = client.prices from: "Amsterdam", to "Purmerend"
+# Using an invalid station name will result in a...
 # NSClient::InvalidStationNameError: 'Amsterdam' is not a valid station name
+prices = client.prices from: "Amsterdam", to "Purmerend"
+
 ```
 
-Response data
--------------
+Prices Response data
+--------------------
 A prices response is an object PricesResponse, which contains tariffunits (a measurement for cost-distance) and a hash with prices.
 
 Each key in this hash is the type of prices (ie 'Dagretour', or 'Enkele reis').
