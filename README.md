@@ -4,13 +4,12 @@ A Ruby client for the NS API.
 
 Goal
 ====
-I'd like to write a comprehensive, yet very thin implementation of the NS API. For now I have limited access therefor this gem is limited.
+I'd like to write a comprehensive, yet very thin implementation of the NS API.
 
-If you have credentials that work with the prices-api calls, and are willing to share them with me so I can expand this gem. Please contact me.
-
-You can also send me an example response, so I can work from there. Although I would like to see it working for real as well.
-
-Pull requests are welcome.
+Currently this gem supports
+* fetching all stations
+* fetching disruptions
+* fetching prices (you need to have a contract with NS for this)
 
 Usage
 =====
