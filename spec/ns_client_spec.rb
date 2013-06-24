@@ -26,11 +26,18 @@ describe NSClient do
       first_station.short_name.should == "H'bosch"
       first_station.name.should == "'s-Hertogenbosch"
       first_station.long_name.should == "'s-Hertogenbosch"
-      first_station.land.should == "NL"
+      first_station.country.should == "NL"
       first_station.uiccode.should == "8400319"
       first_station.lat.should == "51.69048"
       first_station.long.should == "5.29362"
     end
+
+    it "should retrieve a convenient hash with usable station names and codes for prices usage" do
+      stations = @client.stations_short
+      stations.size.should == 620
+      stations["HT"].should == ["'s-Hertogenbosch", "NL"]
+    end
+
 
   end
 

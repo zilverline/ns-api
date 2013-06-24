@@ -51,6 +51,10 @@ class NSClient
     parse_stations(get_xml("http://webservices.ns.nl/ns-api-stations-v2"))
   end
 
+  def stations_short
+    parse_stations_as_map(get_xml("http://webservices.ns.nl/ns-api-stations-v2"))
+  end
+
   def disruptions (query = nil)
     response_xml = get_xml(disruption_url(query))
     raise_error_when_response_is_error(response_xml)
@@ -94,7 +98,7 @@ class NSClient
       s = Station.new
       s.code = (station/'./Code').text
       s.type = (station/'./Type').text
-      s.land = (station/'./Land').text
+      s.country = (station/'./Land').text
       s.short_name = (station/'./Namen/Kort').text
       s.name = (station/'./Namen/Middel').text
       s.long_name = (station/'./Namen/Lang').text
@@ -102,6 +106,17 @@ class NSClient
       s.long = (station/'./Lon').text
       s.uiccode = (station/'./UICCode').text
       result << s
+    end
+    result
+  end
+
+  def parse_stations_as_map(response_xml)
+    result = {}
+    (response_xml/'/Stations/Station').each do |station|
+      code = (station/'./Code').text
+      name = (station/'./Namen/Middel').text
+      country = (station/'./Land').text
+      result[code] = [name, country]
     end
     result
   end
@@ -182,7 +197,7 @@ class NSClient
   end
 
   class Station
-    attr_accessor :code, :type, :land, :short_name, :name, :long_name, :uiccode, :synonyms, :lat, :long
+    attr_accessor :code, :type, :country, :short_name, :name, :long_name, :uiccode, :synonyms, :lat, :long
   end
 
   class InvalidStationNameError < StandardError
