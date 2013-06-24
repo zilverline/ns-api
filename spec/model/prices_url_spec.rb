@@ -12,33 +12,31 @@ describe PricesUrl do
 
   let(:prices_url) { PricesUrl.new("hostname") }
 
-  it "assumes date is now, when not given" do
-    Timecop.freeze(DateTime.new(2013, 6, 21))
-    expected_date = "21062013" #DDMMYYYY
-    prices_url.url.should == "hostname?from=&to=&date=#{expected_date}"
-  end
-
   it "uses given date" do
-    prices_url.url(date: Date.new(2013, 7, 12)).should == "hostname?from=&to=&date=12072013"
+    prices_url.url(date: Date.new(2013, 7, 12)).should == "hostname?date=12072013"
   end
 
   it "uses from" do
     expected_from = "Amsterdam"
-    prices_url.url(from:"Amsterdam", date: ANY_DATE).should == "hostname?from=#{expected_from}&to=&date=#{ANY_DATE_STR}"
+    prices_url.url(from:"Amsterdam").should == "hostname?from=#{expected_from}"
   end
 
   it "uses to" do
     expected_to = "Purmerend"
-    prices_url.url(to:"Purmerend", date: ANY_DATE).should == "hostname?from=&to=#{expected_to}&date=#{ANY_DATE_STR}"
+    prices_url.url(to:"Purmerend").should == "hostname?to=#{expected_to}"
   end
 
   it "uses via" do
     expected_via = "Zaandam"
-    prices_url.url(via:"Zaandam", date: ANY_DATE).should == "hostname?from=&to=&date=#{ANY_DATE_STR}&via=#{expected_via}"
+    prices_url.url(via:"Zaandam").should == "hostname?via=#{expected_via}"
   end
 
   it "uses any all variables for from/to/via" do
-    prices_url.url(from:"Purmerend",to: "Amsterdam", via:"Zaandam", date: ANY_DATE).should == "hostname?from=Purmerend&to=Amsterdam&date=#{ANY_DATE_STR}&via=Zaandam"
+    prices_url.url(from:"Purmerend",to: "Amsterdam", via:"Zaandam").should == "hostname?from=Purmerend&to=Amsterdam&via=Zaandam"
+  end
+
+  it "html encodes" do
+    prices_url.url(from:"Purmerend",to: "Amsterdam Centraal").should == "hostname?from=Purmerend&to=Amsterdam%20Centraal"
   end
 
   ANY_DATE = Date.new(2013, 8, 13)

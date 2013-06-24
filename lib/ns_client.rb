@@ -5,6 +5,8 @@ require 'nokogiri'
 
 require 'httpclient'
 
+require "addressable/uri"
+
 this = Pathname.new(__FILE__).realpath
 lib_path = File.expand_path("..", this)
 $:.unshift(lib_path)
@@ -59,7 +61,9 @@ class NSClient
     raise MissingParameter, "from and to station is required" if (opts[:from] == nil && opts[:to] == nil)
     raise MissingParameter, "from station is required" unless opts[:from]
     raise MissingParameter, "to station is required" unless opts[:to]
-    parse_prices(get_xml(@prices_url.url(opts)))
+    response_xml = get_xml(@prices_url.url(opts))
+    raise_error_when_response_is_error(response_xml)
+    parse_prices(response_xml)
   end
 
   def parse_prices(response_xml)

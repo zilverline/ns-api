@@ -140,6 +140,14 @@ describe NSClient do
       }.to raise_error(NSClient::MissingParameter, "from station is required")
     end
 
+    it "should raise an error when from is not a valid station name" do
+      date = Date.strptime('17-06-2013', '%d-%m-%Y')
+      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-prijzen-v2?from=Amsterdam&to=Purmerend&date=17062013", load_fixture('prices_invalid_station_name.xml')
+      expect {
+        @client.prices from: "Amsterdam", to: "Purmerend", date: date
+      }.to raise_error(NSClient::InvalidStationNameError, "'Amsterdam' is not a valid station name")
+    end
+
     it "should raise error when to is not given" do
       expect {
         @client.prices from: "Purmerend", to: nil

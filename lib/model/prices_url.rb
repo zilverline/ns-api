@@ -5,11 +5,10 @@ class PricesUrl
     @url = url
   end
 
-  def url (opts = {date: nil, from: "", to: ""})
-    opts[:date] ||= Date.today
-    url = "#{@url}?from=#{opts[:from]}&to=#{opts[:to]}&date=#{opts[:date].strftime("%d%m%Y")}"
-    url += "&via=#{opts[:via]}" if opts[:via]
-    url
+  def url (opts = {date: nil, from: "", to: "", date: nil})
+    opts[:date] = opts[:date].strftime("%d%m%Y") if opts[:date]
+    uri = URI.escape(opts.collect{|k,v| "#{k}=#{v}"}.join('&'))
+    "#{@url}?#{uri}"
   end
 
   class InvalidURL < StandardError
