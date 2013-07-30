@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Stations>
+
+	<Station>
+		<Code>LC</Code>
+		<Type>stoptreinstation</Type>
+		<Namen>		
+		  <Kort>Lochem</Kort>
+		  <
+Middel>Lochem</Middel>
+		  <Lang>Lochem</Lang>
+		</Namen>
+		<Land>NL</Land>
+		<UICCode>8400399</UICCode>
+		<Lat>52.166668</Lat>
+		<Lon>6.4263887</Lon>
+		<Synoniemen>
+			
+		</Synoniemen>
+	</Station>
+
+	<Station>
+		<Code>HT</Code>
+		<Type>intercitystation</Type>
+		<Namen>
+		  <Kort>Den Bosch</Kort>
+		  <Middel>'s-Hertogenbosch</Middel>
+		  <Lang>'s-Hertogenbosch</Lang>
+		</Namen>
+		<Land>NL</Land>
+		<UICCode>12</UICCode>
+		<Lat>52.166668</Lat>
+		<Lon>6.4263887</Lon>
+		<Synoniemen>
+
+		</Synoniemen>
+	</Station>
+
+
+</Stations>

@@ -158,7 +158,11 @@ class NSClient
 
   def get_xml(url)
     response = @client.get url
-    Nokogiri.XML(response.content)
+    Nokogiri.XML(remove_unwanted_whitespace(response.content))
+  end
+
+  def remove_unwanted_whitespace content
+    content.gsub /<(\s+?)/, '<'
   end
 
   def disruption_url(query)
