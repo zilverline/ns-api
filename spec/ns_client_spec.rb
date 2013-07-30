@@ -8,36 +8,52 @@ describe NSClient do
 
   context "Stations" do
 
-    before :each do
-      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-stations-v2", load_fixture('stations.xml')
+    context "with valid xml" do
+
+      before :each do
+        stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-stations-v2", load_fixture('stations.xml')
+      end
+
+      it "should return all stations" do
+        stations = @client.stations
+        stations.size.should == 620
+      end
+
+      it "should return expected first station from list" do
+        stations = @client.stations
+        first_station = stations.first
+        first_station.class.should == NSClient::Station
+        first_station.type.should == "knooppuntIntercitystation"
+        first_station.code.should == "HT"
+        first_station.short_name.should == "H'bosch"
+        first_station.name.should == "'s-Hertogenbosch"
+        first_station.long_name.should == "'s-Hertogenbosch"
+        first_station.country.should == "NL"
+        first_station.uiccode.should == "8400319"
+        first_station.lat.should == "51.69048"
+        first_station.long.should == "5.29362"
+      end
+
+      it "should retrieve a convenient hash with usable station names and codes for prices usage" do
+        stations = @client.stations_short
+        stations.size.should == 620
+        stations["HT"].should == ["'s-Hertogenbosch", "NL"]
+      end
+
     end
 
-    it "should return all stations" do
-      stations = @client.stations
-      stations.size.should == 620
-    end
+    describe "invalid stations xml" do
 
-    it "should return expected first station from list" do
-      stations = @client.stations
-      first_station = stations.first
-      first_station.class.should == NSClient::Station
-      first_station.type.should == "knooppuntIntercitystation"
-      first_station.code.should == "HT"
-      first_station.short_name.should == "H'bosch"
-      first_station.name.should == "'s-Hertogenbosch"
-      first_station.long_name.should == "'s-Hertogenbosch"
-      first_station.country.should == "NL"
-      first_station.uiccode.should == "8400319"
-      first_station.lat.should == "51.69048"
-      first_station.long.should == "5.29362"
-    end
+      before :each do
+        stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-stations-v2", load_fixture('stations_list_with_invalid_new_lines.xml')
+      end
 
-    it "should retrieve a convenient hash with usable station names and codes for prices usage" do
-      stations = @client.stations_short
-      stations.size.should == 620
-      stations["HT"].should == ["'s-Hertogenbosch", "NL"]
-    end
+      it "should return all stations" do
+        stations = @client.stations
+        stations.size.should == 2
+      end
 
+    end
 
   end
 
