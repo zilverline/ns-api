@@ -19,3 +19,6 @@ doc/
 
 # IntelliJ IDEA / Rubymine IDEA
 .idea/
+
+# credentials file
+spec/fixtures/credentials.yml

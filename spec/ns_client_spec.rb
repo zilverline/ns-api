@@ -1,5 +1,6 @@
 #encoding: utf-8
 require 'spec_helper'
+require 'yaml'
 
 describe NSClient do
 
@@ -39,6 +40,33 @@ describe NSClient do
         stations = @client.stations_short
         stations.size.should == 620
         stations["HT"].should == ["'s-Hertogenbosch", "NL"]
+      end
+
+    end
+
+    describe "load balanced problem?" do
+
+      it "should have Purmerend Weidevenne", focus: true do
+        found_error = false
+        WebMock.allow_net_connect!
+        while (!found_error) do
+          credentials = YAML.load_file(File.join($ROOT, "spec/fixtures/credentials.yml"))
+          @client = NSClient.new(credentials["username"], credentials["password"])
+          stations = @client.stations
+          station = stations.find { |s| s.code == "OETZ" }
+          found_error = !(station.code == "OETZ" && station.country == "A" && station.name == "Ötztal" && stations.count == 611)
+
+          if found_error
+            f = File.open("/tmp/ns_stations_without_oztal.xml", "w")
+            f.write(@client.last_received_xml)
+            f.close
+            raise "something screwed up! see /tmp/ns_stations_without_oztal.xml"
+          else
+            p "Test went OK, #{stations.count} stations found"
+          end
+
+          sleep 15
+        end
       end
 
     end
