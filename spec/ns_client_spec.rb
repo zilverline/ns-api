@@ -46,7 +46,8 @@ describe NSClient do
 
     describe "load balanced problem?" do
 
-      it "should have Purmerend Weidevenne", focus: true do
+      # requires a credentials.yml in spec/fixtures with a username and password
+      pending "should have Purmerend Weidevenne", focus: true do
         found_error = false
         WebMock.allow_net_connect!
         #while (!found_error) do
