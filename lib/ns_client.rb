@@ -42,10 +42,13 @@ end
 
 class NSClient
 
+  attr_accessor :last_received_xml
+
   def initialize(username, password)
     @client = HTTPClient.new
     @client.set_auth("http://webservices.ns.nl", username, password)
     @prices_url = PricesUrl.new("http://webservices.ns.nl/ns-api-prijzen-v2")
+    @last_received_xml = ""
   end
 
   def stations
@@ -159,6 +162,7 @@ class NSClient
 
   def get_xml(url)
     response = @client.get url
+    @last_received_xml = response.content
     Nokogiri.XML(remove_unwanted_whitespace(response.content))
   end
 

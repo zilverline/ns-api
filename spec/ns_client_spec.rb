@@ -49,24 +49,27 @@ describe NSClient do
       it "should have Purmerend Weidevenne", focus: true do
         found_error = false
         WebMock.allow_net_connect!
-        while (!found_error) do
+        #while (!found_error) do
           credentials = YAML.load_file(File.join($ROOT, "spec/fixtures/credentials.yml"))
           @client = NSClient.new(credentials["username"], credentials["password"])
           stations = @client.stations
           station = stations.find { |s| s.code == "OETZ" }
-          found_error = !(station.code == "OETZ" && station.country == "A" && station.name == "Ötztal" && stations.count == 611)
+          expected_count = 612
+          found_error = !(station.code == "OETZ" && station.country == "A" && station.name == "Ötztal" && stations.count == expected_count)
 
           if found_error
             f = File.open("/tmp/ns_stations_without_oztal.xml", "w")
             f.write(@client.last_received_xml)
             f.close
-            raise "something screwed up! see /tmp/ns_stations_without_oztal.xml"
+            raise "Could not find staiton with code 'OETZ', see /tmp/ns_stations_without_oztal.xml" if station.blank?
+            raise "Found station, but with different properties or size differs? Country should be 'A' but is #{station.country}, station name should be 'Ötztal' but is #{station.name}, and the count should be #{expected_count}. (count is #{stations.count}) see /tmp/ns_stations_without_oztal.xml"
           else
-            p "Test went OK, #{stations.count} stations found"
+            #p "Test went OK, #{stations.count} stations found"
           end
 
-          sleep 15
-        end
+         # sleep 15
+        #end 
+        # remove the loop to constantly check NS if we are doubting their source
       end
 
     end
