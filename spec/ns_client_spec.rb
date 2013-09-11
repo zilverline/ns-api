@@ -95,6 +95,7 @@ describe NSClient do
           "</ Code  >" => "</Code>",
           "</\n\nCode  >" => "</Code>",
           "</\r\tCode\n>" => "</Code>",
+          "</Co\nde\n>" => "</Code>",
       }.each do |k, v|
         it "removes unwanted whitespace from #{k} , expecting #{v} (remove_unwanted_whitespace)" do
           client.remove_unwanted_whitespace(k).should eq v

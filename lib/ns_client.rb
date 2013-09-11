@@ -176,7 +176,7 @@ class NSClient
   end
 
   def remove_unwanted_whitespace content
-    content.gsub /<\s*(\/?)\s*?([a-zA-Z0-9]*)\s*>/, '<\1\2>'
+    content.gsub /<\s*(\/?)\s*?([a-zA-Z0-9]*)\s*([a-zA-Z0-9]*)\s*>/, '<\1\2\3>'
   end
 
   def disruption_url(query)
