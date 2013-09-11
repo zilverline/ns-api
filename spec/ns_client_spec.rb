@@ -1,11 +1,10 @@
 #encoding: utf-8
 require 'spec_helper'
+require 'yaml'
 
 describe NSClient do
 
-  before :each do
-    @client = NSClient.new("username", "password")
-  end
+  let! (:client) { NSClient.new("username", "password") }
 
   context "Stations" do
 
@@ -16,12 +15,12 @@ describe NSClient do
       end
 
       it "should return all stations" do
-        stations = @client.stations
+        stations = client.stations
         stations.size.should == 620
       end
 
       it "should return expected first station from list" do
-        stations = @client.stations
+        stations = client.stations
         first_station = stations.first
         first_station.class.should == NSClient::Station
         first_station.type.should == "knooppuntIntercitystation"
@@ -36,22 +35,79 @@ describe NSClient do
       end
 
       it "should retrieve a convenient hash with usable station names and codes for prices usage" do
-        stations = @client.stations_short
+        stations = client.stations_short
         stations.size.should == 620
         stations["HT"].should == ["'s-Hertogenbosch", "NL"]
       end
 
+
     end
 
-    describe "invalid stations xml" do
+    describe "integration specs", :integration do
 
-      before :each do
-        stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-stations-v2", load_fixture('stations_list_with_invalid_new_lines.xml')
+      # requires a credentials.yml in spec/fixtures with a username and password
+      it "should parse live data correctly", focus: true do
+        found_error = false
+        WebMock.allow_net_connect!
+        #while (!found_error) do
+          credentials = YAML.load_file(File.join($ROOT, "spec/fixtures/credentials.yml"))
+          client = NSClient.new(credentials["username"], credentials["password"])
+          stations = client.stations
+          station = stations.find { |s| s.code == "OETZ" }
+          expected_count = 613
+          found_error = !(station.code == "OETZ" && station.country == "A" && station.name == "Ötztal" && stations.count == expected_count)
+
+          if found_error
+            f = File.open("/tmp/ns_stations_without_oztal.xml", "w")
+            f.write(client.last_received_raw_xml)
+            f.close
+            raise "Could not find staiton with code 'OETZ', see /tmp/ns_stations_without_oztal.xml" if station.blank?
+            raise "Found station, but with different properties or size differs? Country should be 'A' but is #{station.country}, station name should be 'Ötztal' but is #{station.name}, and the count should be #{expected_count}. (count is #{stations.count}) see /tmp/ns_stations_without_oztal.xml"
+          else
+            p "Test went OK, #{stations.count} stations found"
+          end
+        #end
+        # remove the loop to constantly check NS if we are doubting their source
       end
 
+    end
+
+  end
+
+  describe "invalid stations xml" do
+
+    context "with only newlines/spaces we can fix" do
+
       it "should return all stations" do
-        stations = @client.stations
+        stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-stations-v2", load_fixture('stations_list_with_invalid_new_lines.xml')
+        stations = client.stations
         stations.size.should == 2
+      end
+
+      {
+          "< Code>" => "<Code>",
+          "< Code >" => "<Code>",
+          "< Code    >" => "<Code>",
+          "<     Code>" => "<Code>",
+          "</   Code>" => "</Code>",
+          "<  /   Code>" => "</Code>",
+          "</  Code  >" => "</Code>",
+          "</ Code  >" => "</Code>",
+          "</\n\nCode  >" => "</Code>",
+          "</\r\tCode\n>" => "</Code>",
+      }.each do |k, v|
+        it "removes unwanted whitespace from #{k} , expecting #{v} (remove_unwanted_whitespace)" do
+          client.remove_unwanted_whitespace(k).should eq v
+        end
+      end
+
+    end
+
+    context "with mangled XML we cannot / won't fix" do
+
+      it "raises an error when xml is unparseable" do
+        stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-stations-v2", load_fixture('stations_list_mangled.xml')
+        expect { client.stations }.to raise_error(NSClient::UnparseableXMLError)
       end
 
     end
@@ -62,7 +118,7 @@ describe NSClient do
 
     it "should retrieve planned and unplanned disruptions" do
       stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?actual=true", load_fixture('disruptions.xml')
-      disruptions = @client.disruptions
+      disruptions = client.disruptions
       disruptions.size.should == 2
       disruptions[:planned].size.should == 1
       disruptions[:unplanned].size.should == 1
@@ -70,7 +126,7 @@ describe NSClient do
 
     it "should retrieve expected planned disruption" do
       stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?actual=true", load_fixture('disruptions.xml')
-      disruptions = @client.disruptions
+      disruptions = client.disruptions
       disruptions.size.should == 2
       planned_disruption = disruptions[:planned].first
       planned_disruption.class.should == NSClient::PlannedDisruption
@@ -87,7 +143,7 @@ describe NSClient do
 
     it "should retrieve expected unplanned disruption" do
       stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?actual=true", load_fixture('disruptions.xml')
-      disruptions = @client.disruptions
+      disruptions = client.disruptions
       disruptions.size.should == 2
       unplanned_disruption = disruptions[:unplanned].first
       unplanned_disruption.class.should == NSClient::UnplannedDisruption
@@ -102,7 +158,7 @@ describe NSClient do
 
     it "should not return disruption when empty in response" do
       stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?actual=true", load_fixture('no_disruptions.xml')
-      disruptions = @client.disruptions
+      disruptions = client.disruptions
       disruptions.size.should == 2
       disruptions[:planned].size.should == 0
       disruptions[:unplanned].size.should == 0
@@ -113,7 +169,7 @@ describe NSClient do
       it "should retrieve disruptions for station name" do
         # ie, for Amsterdam only (http://webservices.ns.nl/ns-api-storingen?station=Amsterdam)
         stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?station=Amsterdam", load_fixture('disruptions_amsterdam.xml')
-        disruptions = @client.disruptions "Amsterdam"
+        disruptions = client.disruptions "Amsterdam"
         disruptions.size.should == 2
         disruptions[:planned].size.should == 4
         disruptions[:unplanned].size.should == 0
@@ -121,7 +177,7 @@ describe NSClient do
 
       it "should raise an error when using invalid station name" do
         stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?station=bla", load_fixture('disruption_invalid_station_name.xml')
-        expect { @client.disruptions "bla" }.to raise_error(NSClient::InvalidStationNameError, "Could not find a station with name 'bla'")
+        expect { client.disruptions "bla" }.to raise_error(NSClient::InvalidStationNameError, "Could not find a station with name 'bla'")
       end
     end
 
@@ -133,7 +189,7 @@ describe NSClient do
     it "should retrieve prices for a trip" do
       stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-prijzen-v2?from=Purmerend&to=Amsterdam&via=Zaandam&date=17062013", load_fixture('prices.xml')
       date = Date.strptime('17-06-2013', '%d-%m-%Y')
-      response = @client.prices from: "Purmerend", to: "Amsterdam", via: "Zaandam", date: date
+      response = client.prices from: "Purmerend", to: "Amsterdam", via: "Zaandam", date: date
       response.class.should == NSClient::PricesResponse
       response.tariff_units.should == 10
       response.products.size.should == 2
@@ -145,7 +201,7 @@ describe NSClient do
     it "should retrieve expected price data" do
       stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-prijzen-v2?from=Purmerend&to=Amsterdam&via=Zaandam&date=17062013", load_fixture('prices.xml')
       date = Date.strptime('17-06-2013', '%d-%m-%Y')
-      response = @client.prices from: "Purmerend", to: "Amsterdam", via: "Zaandam", date: date
+      response = client.prices from: "Purmerend", to: "Amsterdam", via: "Zaandam", date: date
       response.class.should == NSClient::PricesResponse
       response.tariff_units.should == 10
       response.products.size.should == 2
@@ -160,7 +216,7 @@ describe NSClient do
 
     it "should raise error when from is not given" do
       expect {
-        @client.prices from: nil, to: "Amsterdam"
+        client.prices from: nil, to: "Amsterdam"
       }.to raise_error(NSClient::MissingParameter, "from station is required")
     end
 
@@ -168,19 +224,19 @@ describe NSClient do
       date = Date.strptime('17-06-2013', '%d-%m-%Y')
       stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-prijzen-v2?from=Amsterdam&to=Purmerend&date=17062013", load_fixture('prices_invalid_station_name.xml')
       expect {
-        @client.prices from: "Amsterdam", to: "Purmerend", date: date
+        client.prices from: "Amsterdam", to: "Purmerend", date: date
       }.to raise_error(NSClient::InvalidStationNameError, "'Amsterdam' is not a valid station name")
     end
 
     it "should raise error when to is not given" do
       expect {
-        @client.prices from: "Purmerend", to: nil
+        client.prices from: "Purmerend", to: nil
       }.to raise_error(NSClient::MissingParameter, "to station is required")
     end
 
     it "should raise error complaining about from and to missing when both not given" do
       expect {
-        @client.prices from: nil, to: nil
+        client.prices from: nil, to: nil
       }.to raise_error(NSClient::MissingParameter, "from and to station is required")
     end
 

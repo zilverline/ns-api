@@ -25,6 +25,17 @@ RSpec.configure do |config|
     Timecop.return # make sure timecop is disabled after each test
   end
 
+  config.treat_symbols_as_metadata_keys_with_true_values = true
+  config.filter_run :focus => true
+  config.run_all_when_everything_filtered = true
+
+  unless config.inclusion_filter[:integration]
+    p "Integration specs are DISABLED. To run integration specs only, use `rspec --tag integration`"
+    config.filter_run_excluding :integration => true
+  else
+    p "Running integrtion specs ONLY."
+  end
+
 end
 
 # END
