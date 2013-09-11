@@ -1,5 +1,0 @@
-if [[ -s "~/.rvm/environments/ruby-1.9.3-p194@ns-api" ]] ; then
-  . "~/.rvm/environments/ruby-1.9.3-p194@ns-api"
-else
-  rvm --create use  "ruby-1.9.3-p194@ns-api"
-fi
