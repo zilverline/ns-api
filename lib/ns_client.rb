@@ -42,10 +42,14 @@ end
 
 class NSClient
 
+  attr_accessor :last_received_xml
+
   def initialize(username, password)
     @client = HTTPClient.new
     @client.set_auth("http://webservices.ns.nl", username, password)
     @prices_url = PricesUrl.new("http://webservices.ns.nl/ns-api-prijzen-v2")
+    @last_received_raw_xml = ""
+    @last_received_corrected_xml = ""
   end
 
   def stations
@@ -159,11 +163,20 @@ class NSClient
 
   def get_xml(url)
     response = @client.get url
-    Nokogiri.XML(remove_unwanted_whitespace(response.content))
+    @last_received_raw_xml = response.content
+    @last_received_corrected_xml = remove_unwanted_whitespace(@last_received_raw_xml)
+    begin
+      Nokogiri.XML(@last_received_corrected_xml) do |config|
+        config.options = Nokogiri::XML::ParseOptions::STRICT
+      end
+    rescue Nokogiri::XML::SyntaxError => e
+      raise UnparseableXMLError.new e
+    end
+
   end
 
   def remove_unwanted_whitespace content
-    content.gsub /<(\s+?)/, '<'
+    content.gsub /<\s*(\/?)\s*?([a-zA-Z0-9]*)\s*>/, '<\1\2>'
   end
 
   def disruption_url(query)
@@ -209,6 +222,9 @@ class NSClient
   end
 
   class MissingParameter < StandardError
+  end
+
+  class UnparseableXMLError < StandardError
   end
 
 end
