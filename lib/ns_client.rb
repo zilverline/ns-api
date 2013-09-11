@@ -42,7 +42,7 @@ end
 
 class NSClient
 
-  attr_accessor :last_received_xml
+  attr_accessor :last_received_raw_xml, :last_received_corrected_xml
 
   def initialize(username, password)
     @client = HTTPClient.new
