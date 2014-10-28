@@ -3,9 +3,7 @@ require 'pathname'
 require 'time'
 require 'nori'
 require 'nokogiri'
-
 require 'httpclient'
-
 require "addressable/uri"
 
 this = Pathname.new(__FILE__).realpath
@@ -47,7 +45,7 @@ class NSClient
   def initialize(username, password)
     @client = HTTPClient.new
     @client.set_auth("http://webservices.ns.nl", username, password)
-    @prices_url = PricesUrl.new("http://webservices.ns.nl/ns-api-prijzen-v2")
+    @prices_url = PricesUrl.new("http://webservices.ns.nl/ns-api-prijzen-v3")
     @last_received_raw_xml = ""
     @last_received_corrected_xml = ""
   end
@@ -77,19 +75,23 @@ class NSClient
 
   def parse_prices(response_xml)
     prices_response = PricesResponse.new
-    (response_xml/'/Producten').each do |products|
-      prices_response.tariff_units = (products/'./Tariefeenheden').text.to_i
+    (response_xml/'/VervoerderKeuzes/VervoerderKeuze').each do |transporter|
+      prices_response.tariff_units = (transporter/'./Tariefeenheden').text.to_i
 
-      (products/'Product').each do |product|
+      (transporter/'ReisType').each do |travel_type|
         prices = []
-        (product/'Prijs').each do |price_element|
-          product_price = ProductPrice.new
-          product_price.type = price_element.attr("korting")
-          product_price.train_class = price_element.attr("klasse")
-          product_price.amount = price_element.text.gsub(",", ".").to_f
-          prices << product_price
+
+        (travel_type/'ReisKlasse').each do |travel_class|
+          (travel_class/'Korting/Kortingsprijs').each do |price_element|
+            product_price = ProductPrice.new
+            product_price.discount = price_element.attr("name")
+            product_price.train_class = travel_class.attr("klasse")
+            product_price.amount = price_element.attr("prijs").gsub(",", ".").to_f
+            prices << product_price
+          end
         end
-        name = product.attr('naam')
+
+        name = travel_type.attr('name')
         prices_response.products[name] = prices
       end
 
@@ -197,13 +199,21 @@ class NSClient
     end
 
     def dagretour
-      products["Dagretour"]
+      products["Retour"]
     end
 
   end
 
   class ProductPrice
-    attr_accessor :type, :train_class, :amount
+    attr_accessor :discount, :train_class, :amount
+    DISCOUNT_MAP = {
+      "20% korting" => "reductie_20",
+      "40% korting" => "reductie_40"
+    }.freeze
+
+    def type
+      DISCOUNT_MAP.fetch(discount, discount)
+    end
   end
 
   class UnplannedDisruption

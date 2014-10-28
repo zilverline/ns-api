@@ -1,20 +1,46 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<Producten>
-  <Tariefeenheden>10</Tariefeenheden>
-  <Product naam="Enkele reis">
-    <Prijs korting="vol tarief" klasse="2">2,40</Prijs>
-    <Prijs korting="reductie_20" klasse="2">1,90</Prijs>
-    <Prijs korting="reductie_40" klasse="2">1,40</Prijs>
-    <Prijs korting="vol tarief" klasse="1">4,10</Prijs>
-    <Prijs korting="reductie_20" klasse="1">3,30</Prijs>
-    <Prijs korting="reductie_40" klasse="1">2,50</Prijs>
-  </Product>
-  <Product naam="Dagretour">
-    <Prijs korting="vol tarief" klasse="2">4,80</Prijs>
-    <Prijs korting="reductie_20" klasse="2">3,80</Prijs>
-    <Prijs korting="reductie_40" klasse="2">2,80</Prijs>
-    <Prijs korting="vol tarief" klasse="1">8,20</Prijs>
-    <Prijs korting="reductie_20" klasse="1">6,60</Prijs>
-    <Prijs korting="reductie_40" klasse="1">5,00</Prijs>
-  </Product>
-</Producten>
+<?xml version="1.0" encoding="UTF-8"?>
+<VervoerderKeuzes>
+  <VervoerderKeuze naam="GEEN_KEUZE">
+    <Tariefeenheden>205</Tariefeenheden>
+    <ReisType name="Enkele reis">
+      <ReisKlasse klasse="1">
+        <Prijsdeel vervoerder="NS" prijs="41,50" naar="RTD" van="GBR"/>
+        <Totaal>41,50</Totaal>
+        <Korting>
+          <Kortingsprijs name="vol tarief" prijs="41,50"/>
+          <Kortingsprijs name="20% korting" prijs="33,20"/>
+          <Kortingsprijs name="40% korting" prijs="24,90"/>
+        </Korting>
+      </ReisKlasse>
+      <ReisKlasse klasse="2">
+        <Prijsdeel vervoerder="NS" prijs="24,40" naar="RTD" van="GBR"/>
+        <Totaal>24,40</Totaal>
+        <Korting>
+          <Kortingsprijs name="vol tarief" prijs="24,40"/>
+          <Kortingsprijs name="20% korting" prijs="19,50"/>
+          <Kortingsprijs name="40% korting" prijs="14,60"/>
+        </Korting>
+      </ReisKlasse>
+    </ReisType>
+    <ReisType name="Retour">
+      <ReisKlasse klasse="1">
+        <Prijsdeel vervoerder="NS" prijs="83,00" naar="RTD" van="GBR"/>
+        <Totaal>83,00</Totaal>
+        <Korting>
+          <Kortingsprijs name="vol tarief" prijs="83,00"/>
+          <Kortingsprijs name="20% korting" prijs="66,40"/>
+          <Kortingsprijs name="40% korting" prijs="49,80"/>
+        </Korting>
+      </ReisKlasse>
+      <ReisKlasse klasse="2">
+        <Prijsdeel vervoerder="NS" prijs="48,80" naar="RTD" van="GBR"/>
+        <Totaal>48,80</Totaal>
+        <Korting>
+          <Kortingsprijs name="vol tarief" prijs="48,80"/>
+          <Kortingsprijs name="20% korting" prijs="39,00"/>
+          <Kortingsprijs name="40% korting" prijs="29,20"/>
+        </Korting>
+      </ReisKlasse>
+    </ReisType>
+  </VervoerderKeuze>
+</VervoerderKeuzes>

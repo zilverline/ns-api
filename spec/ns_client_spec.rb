@@ -188,11 +188,11 @@ describe NSClient do
   context "Prices" do
 
     it "should retrieve prices for a trip" do
-      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-prijzen-v2?from=Purmerend&to=Amsterdam&via=Zaandam&date=17062013", load_fixture('prices.xml')
+      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-prijzen-v3?from=Rotterdam&to=Glanerbrug&date=17062013", load_fixture('prices.xml')
       date = Date.strptime('17-06-2013', '%d-%m-%Y')
-      response = client.prices from: "Purmerend", to: "Amsterdam", via: "Zaandam", date: date
+      response = client.prices from: "Rotterdam", to: "Glanerbrug", date: date
       response.class.should == NSClient::PricesResponse
-      response.tariff_units.should == 10
+      response.tariff_units.should == 205
       response.products.size.should == 2
 
       response.enkele_reis.size.should == 6
@@ -200,19 +200,19 @@ describe NSClient do
     end
 
     it "should retrieve expected price data" do
-      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-prijzen-v2?from=Purmerend&to=Amsterdam&via=Zaandam&date=17062013", load_fixture('prices.xml')
+      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-prijzen-v3?from=Rotterdam&to=Glanerbrug&date=17062013", load_fixture('prices.xml')
       date = Date.strptime('17-06-2013', '%d-%m-%Y')
-      response = client.prices from: "Purmerend", to: "Amsterdam", via: "Zaandam", date: date
+      response = client.prices from: "Rotterdam", to: "Glanerbrug", date: date
       response.class.should == NSClient::PricesResponse
-      response.tariff_units.should == 10
+      response.tariff_units.should == 205
       response.products.size.should == 2
 
-      assert_price(response.enkele_reis[0], "vol tarief", "2", 2.4)
-      assert_price(response.enkele_reis[1], "reductie_20", "2", 1.90)
-      assert_price(response.enkele_reis[2], "reductie_40", "2", 1.40)
-      assert_price(response.enkele_reis[3], "vol tarief", "1", 4.10)
-      assert_price(response.enkele_reis[4], "reductie_20", "1", 3.3)
-      assert_price(response.enkele_reis[5], "reductie_40", "1", 2.5)
+      assert_price(response.enkele_reis[0], "vol tarief", "1", 41.5)
+      assert_price(response.enkele_reis[1], "reductie_20", "1", 33.2)
+      assert_price(response.enkele_reis[2], "reductie_40", "1", 24.9)
+      assert_price(response.enkele_reis[3], "vol tarief", "2", 24.4)
+      assert_price(response.enkele_reis[4], "reductie_20", "2", 19.5)
+      assert_price(response.enkele_reis[5], "reductie_40", "2", 14.6)
     end
 
     it "should raise error when from is not given" do
@@ -223,7 +223,7 @@ describe NSClient do
 
     it "should raise an error when from is not a valid station name" do
       date = Date.strptime('17-06-2013', '%d-%m-%Y')
-      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-prijzen-v2?from=Amsterdam&to=Purmerend&date=17062013", load_fixture('prices_invalid_station_name.xml')
+      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-prijzen-v3?from=Amsterdam&to=Purmerend&date=17062013", load_fixture('prices_invalid_station_name.xml')
       expect {
         client.prices from: "Amsterdam", to: "Purmerend", date: date
       }.to raise_error(NSClient::InvalidStationNameError, "'Amsterdam' is not a valid station name")
