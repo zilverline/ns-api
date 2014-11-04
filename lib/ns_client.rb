@@ -206,7 +206,7 @@ class NSClient
 
   class ProductPrice
     attr_accessor :discount, :train_class, :amount
-    DISCOUNT_MAP = {
+    DISCOUNT_MAP ||= {
       "20% korting" => "reductie_20",
       "40% korting" => "reductie_40"
     }.freeze
