@@ -1,4 +1,8 @@
-Yet Another NS API [![Build Status](https://travis-ci.org/stefanhendriks/ns-api.png?branch=master)](https://travis-ci.org/stefanhendriks/ns-api) [![Coverage Status](https://coveralls.io/repos/stefanhendriks/ns-api/badge.png)](https://coveralls.io/r/stefanhendriks/ns-api)
+Yet Another NS API
+
+[![Build Status](https://travis-ci.org/zilverline/ns-api.svg?branch=master)](https://travis-ci.org/zilverline/ns-api)
+[![Coverage Status](https://coveralls.io/repos/zilverline/ns-api/badge.svg?branch=master)](https://coveralls.io/r/zilverline/ns-api?branch=master)
+
 ==================
 A Ruby client for the NS API.
 
