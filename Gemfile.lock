@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ns-yapi (0.4.2)
+    ns-yapi (0.4.3)
       httpclient
       nokogiri
       nori
@@ -23,13 +23,13 @@ GEM
     httpclient (2.3.3)
     metaclass (0.0.1)
     mime-types (1.23)
-    mini_portile (0.5.0)
+    mini_portile (0.6.1)
     mocha (0.14.0)
       metaclass (~> 0.0.1)
     multi_json (1.7.7)
-    nokogiri (1.6.0)
-      mini_portile (~> 0.5.0)
-    nori (2.2.0)
+    nokogiri (1.6.5)
+      mini_portile (~> 0.6.0)
+    nori (2.4.0)
     rake (10.0.3)
     rest-client (1.6.7)
       mime-types (>= 1.16)
