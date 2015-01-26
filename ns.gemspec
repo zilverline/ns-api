@@ -4,12 +4,12 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |gem|
   gem.name          = "ns-yapi"
-  gem.version       = '0.4.2'
-  gem.authors       = ["Stefan Hendriks"]
+  gem.version       = '0.4.3'
+  gem.authors       = ["Stefan Hendriks", "Derek Kraan", "Bob Forma"]
   gem.email         = ["stefanhen83@gmail.com"]
   gem.description   = %q{Yet Another (Ruby) NS API client}
   gem.summary       = %q{A Ruby client for the NS (Dutch Railways) API}
-  gem.homepage      = "https://github.com/stefanhendriks/ns-api"
+  gem.homepage      = "https://github.com/zilverline/ns-api"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
@@ -19,5 +19,4 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'httpclient'
   gem.add_dependency 'nori'
   gem.add_dependency 'nokogiri'
-
 end
