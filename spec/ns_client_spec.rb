@@ -241,6 +241,12 @@ describe NSClient do
       }.to raise_error(NSClient::MissingParameter, "from and to station is required")
     end
 
+    it "should raise an error when from and to are the same" do
+      expect {
+        client.prices from: 'AMA', to: 'AMA'
+      }.to raise_error(NSClient::SameDestinationError, "from (AMA) and to (AMA) parameters should not be equal")
+    end
+
   end
 
   def assert_price(element, expected_type, expected_train_class, expected_amount)
