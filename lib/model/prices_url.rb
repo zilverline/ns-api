@@ -5,7 +5,7 @@ class PricesUrl
     @url = url
   end
 
-  def url (opts = {date: nil, from: "", to: "", date: nil})
+  def url (opts = {date: nil, from: "", to: ""})
     opts[:date] = opts[:date].strftime("%d%m%Y") if opts[:date]
     uri = URI.escape(opts.collect{|k,v| "#{k}=#{v}"}.join('&'))
     "#{@url}?#{uri}"
