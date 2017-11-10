@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ns-yapi (0.4.4)
+    ns-yapi (0.5.0)
       addressable
       httpclient
       nokogiri
