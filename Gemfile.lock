@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     ns-yapi (0.4.4)
+      addressable
       httpclient
       nokogiri
       nori
@@ -23,13 +24,13 @@ GEM
     httpclient (2.3.3)
     metaclass (0.0.1)
     mime-types (1.23)
-    mini_portile (0.6.2)
+    mini_portile2 (2.3.0)
     mocha (0.14.0)
       metaclass (~> 0.0.1)
     multi_json (1.7.7)
-    nokogiri (1.6.6.2)
-      mini_portile (~> 0.6.0)
-    nori (2.4.0)
+    nokogiri (1.8.1)
+      mini_portile2 (~> 2.3.0)
+    nori (2.6.0)
     rake (10.0.3)
     rest-client (1.6.7)
       mime-types (>= 1.16)
@@ -65,3 +66,6 @@ DEPENDENCIES
   simplecov
   timecop (~> 0.6.1)
   webmock (~> 1.11.0)
+
+BUNDLED WITH
+   1.16.0
