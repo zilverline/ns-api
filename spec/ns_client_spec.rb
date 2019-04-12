@@ -54,7 +54,7 @@ describe NSClient do
           client = NSClient.new(credentials["username"], credentials["password"])
           stations = client.stations
           station = stations.find { |s| s.code == "OETZ" }
-          expected_count = 613
+          expected_count = 628
           found_error = !(station.code == "OETZ" && station.country == "A" && station.name == "Ötztal" && stations.count == expected_count)
 
           if found_error
