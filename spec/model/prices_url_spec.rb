@@ -13,30 +13,30 @@ describe PricesUrl do
   let(:prices_url) { PricesUrl.new("hostname") }
 
   it "uses given date" do
-    prices_url.url(date: Date.new(2013, 7, 12)).should == "hostname?date=12072013"
+    expect(prices_url.url(date: Date.new(2013, 7, 12))).to eq("hostname?date=12072013")
   end
 
   it "uses from" do
     expected_from = "Amsterdam"
-    prices_url.url(from:"Amsterdam").should == "hostname?from=#{expected_from}"
+    expect(prices_url.url(from:"Amsterdam")).to eq("hostname?from=#{expected_from}")
   end
 
   it "uses to" do
     expected_to = "Purmerend"
-    prices_url.url(to:"Purmerend").should == "hostname?to=#{expected_to}"
+    expect(prices_url.url(to:"Purmerend")).to eq("hostname?to=#{expected_to}")
   end
 
   it "uses via" do
     expected_via = "Zaandam"
-    prices_url.url(via:"Zaandam").should == "hostname?via=#{expected_via}"
+    expect(prices_url.url(via:"Zaandam")).to eq("hostname?via=#{expected_via}")
   end
 
   it "uses any all variables for from/to/via" do
-    prices_url.url(from:"Purmerend",to: "Amsterdam", via:"Zaandam").should == "hostname?from=Purmerend&to=Amsterdam&via=Zaandam"
+    expect(prices_url.url(from:"Purmerend",to: "Amsterdam", via:"Zaandam")).to eq("hostname?from=Purmerend&to=Amsterdam&via=Zaandam")
   end
 
   it "html encodes" do
-    prices_url.url(from:"Purmerend",to: "Amsterdam Centraal").should == "hostname?from=Purmerend&to=Amsterdam%20Centraal"
+    expect(prices_url.url(from:"Purmerend",to: "Amsterdam Centraal")).to eq("hostname?from=Purmerend&to=Amsterdam%20Centraal")
   end
 
   ANY_DATE = Date.new(2013, 8, 13)

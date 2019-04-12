@@ -16,28 +16,28 @@ describe NSClient do
 
       it "should return all stations" do
         stations = client.stations
-        stations.size.should == 620
+        expect(stations.size).to eq(620)
       end
 
       it "should return expected first station from list" do
         stations = client.stations
         first_station = stations.first
-        first_station.class.should == NSClient::Station
-        first_station.type.should == "knooppuntIntercitystation"
-        first_station.code.should == "HT"
-        first_station.short_name.should == "H'bosch"
-        first_station.name.should == "'s-Hertogenbosch"
-        first_station.long_name.should == "'s-Hertogenbosch"
-        first_station.country.should == "NL"
-        first_station.uiccode.should == "8400319"
-        first_station.lat.should == "51.69048"
-        first_station.long.should == "5.29362"
+        expect(first_station.class).to eq(NSClient::Station)
+        expect(first_station.type).to eq("knooppuntIntercitystation")
+        expect(first_station.code).to eq("HT")
+        expect(first_station.short_name).to eq("H'bosch")
+        expect(first_station.name).to eq("'s-Hertogenbosch")
+        expect(first_station.long_name).to eq("'s-Hertogenbosch")
+        expect(first_station.country).to eq("NL")
+        expect(first_station.uiccode).to eq("8400319")
+        expect(first_station.lat).to eq("51.69048")
+        expect(first_station.long).to eq("5.29362")
       end
 
       it "should retrieve a convenient hash with usable station names and codes for prices usage" do
         stations = client.stations_short
-        stations.size.should == 620
-        stations["HT"].should == ["'s-Hertogenbosch", "NL"]
+        expect(stations.size).to eq(620)
+        expect(stations["HT"]).to eq(["'s-Hertogenbosch", "NL"])
       end
 
 
@@ -81,7 +81,7 @@ describe NSClient do
       it "should return all stations" do
         stub_ns_client_request "http://webservices.ns.nl/ns-api-stations-v2", load_fixture('stations_list_with_invalid_new_lines.xml')
         stations = client.stations
-        stations.size.should == 2
+        expect(stations.size).to eq(2)
       end
 
       {
@@ -98,7 +98,7 @@ describe NSClient do
           "</Co\nde\n>" => "</Code>",
       }.each do |k, v|
         it "removes unwanted whitespace from #{k} , expecting #{v} (remove_unwanted_whitespace)" do
-          client.remove_unwanted_whitespace(k).should eq v
+          expect(client.remove_unwanted_whitespace(k)).to eq v
         end
       end
 
@@ -120,49 +120,49 @@ describe NSClient do
     it "should retrieve planned and unplanned disruptions" do
       stub_ns_client_request "http://webservices.ns.nl/ns-api-storingen?actual=true", load_fixture('disruptions.xml')
       disruptions = client.disruptions
-      disruptions.size.should == 2
-      disruptions[:planned].size.should == 1
-      disruptions[:unplanned].size.should == 1
+      expect(disruptions.size).to eq(2)
+      expect(disruptions[:planned].size).to eq(1)
+      expect(disruptions[:unplanned].size).to eq(1)
     end
 
     it "should retrieve expected planned disruption" do
       stub_ns_client_request "http://webservices.ns.nl/ns-api-storingen?actual=true", load_fixture('disruptions.xml')
       disruptions = client.disruptions
-      disruptions.size.should == 2
+      expect(disruptions.size).to eq(2)
       planned_disruption = disruptions[:planned].first
-      planned_disruption.class.should == NSClient::PlannedDisruption
+      expect(planned_disruption.class).to eq(NSClient::PlannedDisruption)
 
-      planned_disruption.id.should == "2010_almo_wp_18_19dec"
-      planned_disruption.trip.should == "Almere Oostvaarders-Weesp/Naarden-Bussum"
-      planned_disruption.reason.should == "Beperkt treinverkeer, businzet en/of omreizen, extra reistijd 15-30 min."
-      planned_disruption.advice.should == "Maak gebruik van de overige treinen of de bussen: reis tussen Weesp en Almere Centrum met de NS-bus in
+      expect(planned_disruption.id).to eq("2010_almo_wp_18_19dec")
+      expect(planned_disruption.trip).to eq("Almere Oostvaarders-Weesp/Naarden-Bussum")
+      expect(planned_disruption.reason).to eq("Beperkt treinverkeer, businzet en/of omreizen, extra reistijd 15-30 min.")
+      expect(planned_disruption.advice).to eq("Maak gebruik van de overige treinen of de bussen: reis tussen Weesp en Almere Centrum met de NS-bus in
         plaats van de trein tussen Almere Centrum en Lelystad Centrum rijden vier Sprinters per uur reis tussen Almere
-        Muziekwijk en Naarden-Bussum via Weesp"
-      planned_disruption.message.should == "Test message"
-      planned_disruption.cause.should == "oorzaak"
+        Muziekwijk en Naarden-Bussum via Weesp")
+      expect(planned_disruption.message).to eq("Test message")
+      expect(planned_disruption.cause).to eq("oorzaak")
     end
 
     it "should retrieve expected unplanned disruption" do
       stub_ns_client_request "http://webservices.ns.nl/ns-api-storingen?actual=true", load_fixture('disruptions.xml')
       disruptions = client.disruptions
-      disruptions.size.should == 2
+      expect(disruptions.size).to eq(2)
       unplanned_disruption = disruptions[:unplanned].first
-      unplanned_disruption.class.should == NSClient::UnplannedDisruption
+      expect(unplanned_disruption.class).to eq(NSClient::UnplannedDisruption)
 
-      unplanned_disruption.id.should == "prio-13345"
-      unplanned_disruption.trip.should == "'s-Hertogenbosch-Nijmegen"
-      unplanned_disruption.reason.should == "beperkingen op last van de politie"
-      unplanned_disruption.cause.should == "oorzaak"
-      unplanned_disruption.message.should == "Another test message"
+      expect(unplanned_disruption.id).to eq("prio-13345")
+      expect(unplanned_disruption.trip).to eq("'s-Hertogenbosch-Nijmegen")
+      expect(unplanned_disruption.reason).to eq("beperkingen op last van de politie")
+      expect(unplanned_disruption.cause).to eq("oorzaak")
+      expect(unplanned_disruption.message).to eq("Another test message")
       unplanned_disruption.datetime_string == "2010-12-16T11:16:00+0100" #intentional, give raw data. Let user parse if needed.
     end
 
     it "should not return disruption when empty in response" do
       stub_ns_client_request "http://webservices.ns.nl/ns-api-storingen?actual=true", load_fixture('no_disruptions.xml')
       disruptions = client.disruptions
-      disruptions.size.should == 2
-      disruptions[:planned].size.should == 0
-      disruptions[:unplanned].size.should == 0
+      expect(disruptions.size).to eq(2)
+      expect(disruptions[:planned].size).to eq(0)
+      expect(disruptions[:unplanned].size).to eq(0)
     end
 
     describe "for a specific station" do
@@ -171,9 +171,9 @@ describe NSClient do
         # ie, for Amsterdam only (http://webservices.ns.nl/ns-api-storingen?station=Amsterdam)
         stub_ns_client_request "http://webservices.ns.nl/ns-api-storingen?station=Amsterdam", load_fixture('disruptions_amsterdam.xml')
         disruptions = client.disruptions "Amsterdam"
-        disruptions.size.should == 2
-        disruptions[:planned].size.should == 4
-        disruptions[:unplanned].size.should == 0
+        expect(disruptions.size).to eq(2)
+        expect(disruptions[:planned].size).to eq(4)
+        expect(disruptions[:unplanned].size).to eq(0)
       end
 
       it "should raise an error when using invalid station name" do
@@ -191,21 +191,21 @@ describe NSClient do
       stub_ns_client_request "http://webservices.ns.nl/ns-api-prijzen-v3?from=Rotterdam&to=Glanerbrug&date=17062013", load_fixture('prices.xml')
       date = Date.strptime('17-06-2013', '%d-%m-%Y')
       response = client.prices from: "Rotterdam", to: "Glanerbrug", date: date
-      response.class.should == NSClient::PricesResponse
-      response.tariff_units.should == 205
-      response.products.size.should == 2
+      expect(response.class).to eq(NSClient::PricesResponse)
+      expect(response.tariff_units).to eq(205)
+      expect(response.products.size).to eq(2)
 
-      response.enkele_reis.size.should == 6
-      response.dagretour.size.should == 6
+      expect(response.enkele_reis.size).to eq(6)
+      expect(response.dagretour.size).to eq(6)
     end
 
     it "should retrieve expected price data" do
       stub_ns_client_request "http://webservices.ns.nl/ns-api-prijzen-v3?from=Rotterdam&to=Glanerbrug&date=17062013", load_fixture('prices.xml')
       date = Date.strptime('17-06-2013', '%d-%m-%Y')
       response = client.prices from: "Rotterdam", to: "Glanerbrug", date: date
-      response.class.should == NSClient::PricesResponse
-      response.tariff_units.should == 205
-      response.products.size.should == 2
+      expect(response.class).to eq(NSClient::PricesResponse)
+      expect(response.tariff_units).to eq(205)
+      expect(response.products.size).to eq(2)
 
       assert_price(response.enkele_reis[0], "vol tarief", "1", 41.5)
       assert_price(response.enkele_reis[1], "reductie_20", "1", 33.2)
@@ -250,9 +250,9 @@ describe NSClient do
   end
 
   def assert_price(element, expected_type, expected_train_class, expected_amount)
-    element.type.should == expected_type
-    element.train_class.should == expected_train_class
-    element.amount.should == expected_amount
+    expect(element.type).to eq(expected_type)
+    expect(element.train_class).to eq(expected_train_class)
+    expect(element.amount).to eq(expected_amount)
   end
 
   def stub_ns_client_request(url, response)
