@@ -3,7 +3,7 @@ require 'pathname'
 require 'time'
 require 'nori'
 require 'nokogiri'
-require 'httpclient'
+require 'rest-client'
 require "addressable/uri"
 
 this = Pathname.new(__FILE__).realpath
@@ -17,7 +17,6 @@ Dir.glob(File.join(lib_path, '/**/*.rb')).each do |file|
 end
 
 module NSYapi
-
   class Configuration
     attr_accessor :username, :password
   end
@@ -40,22 +39,22 @@ end
 
 class NSClient
 
-  attr_accessor :last_received_raw_xml, :last_received_corrected_xml
+  attr_accessor :last_received_raw_xml, :last_received_corrected_xml, :username, :password
 
   def initialize(username, password)
-    @client = HTTPClient.new
-    @client.set_auth("http://webservices.ns.nl", username, password)
-    @prices_url = PricesUrl.new("http://webservices.ns.nl/ns-api-prijzen-v3")
+    @username = username
+    @password = password
+    @prices_url = PricesUrl.new("https://webservices.ns.nl/ns-api-prijzen-v3")
     @last_received_raw_xml = ""
     @last_received_corrected_xml = ""
   end
 
   def stations
-    parse_stations(get_xml("http://webservices.ns.nl/ns-api-stations-v2"))
+    parse_stations(get_xml("https://webservices.ns.nl/ns-api-stations-v2"))
   end
 
   def stations_short
-    parse_stations_as_map(get_xml("http://webservices.ns.nl/ns-api-stations-v2"))
+    parse_stations_as_map(get_xml("https://webservices.ns.nl/ns-api-stations-v2"))
   end
 
   def disruptions (query = nil)
@@ -166,8 +165,8 @@ class NSClient
   end
 
   def get_xml(url)
-    response = @client.get url
-    @last_received_raw_xml = response.content
+    response = RestClient::Request.new(url: url, user: username, password: password, method: :get).execute
+    @last_received_raw_xml = response.body
     @last_received_corrected_xml = remove_unwanted_whitespace(@last_received_raw_xml)
     begin
       Nokogiri.XML(@last_received_corrected_xml) do |config|
@@ -184,8 +183,8 @@ class NSClient
   end
 
   def disruption_url(query)
-    return "http://webservices.ns.nl/ns-api-storingen?station=#{query}" if query
-    "http://webservices.ns.nl/ns-api-storingen?actual=true"
+    return "https://webservices.ns.nl/ns-api-storingen?station=#{query}" if query
+    "https://webservices.ns.nl/ns-api-storingen?actual=true"
   end
 
   class PricesResponse

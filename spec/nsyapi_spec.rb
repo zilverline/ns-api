@@ -9,8 +9,8 @@ describe NSYapi do
         config.username = "some-username"
         config.password = "some-password"
       end
-      NSYapi::configuration.username.should == "some-username"
-      NSYapi::configuration.password.should == "some-password"
+      expect(NSYapi::configuration.username).to eq("some-username")
+      expect(NSYapi::configuration.password).to eq("some-password")
     end
 
   end
@@ -24,7 +24,7 @@ describe NSYapi do
       end
 
       client = NSYapi::client
-      client.should == NSYapi::client
+      expect(client).to eq(NSYapi::client)
     end
 
   end

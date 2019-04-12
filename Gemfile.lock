@@ -3,69 +3,99 @@ PATH
   specs:
     ns-yapi (0.5.0)
       addressable
-      httpclient
       nokogiri
       nori
+      rest-client
 
 GEM
   remote: http://rubygems.org/
   specs:
-    addressable (2.3.4)
-    colorize (0.5.8)
-    coveralls (0.6.7)
-      colorize
-      multi_json (~> 1.3)
-      rest-client
-      simplecov (>= 0.7)
-      thor
-    crack (0.4.0)
-      safe_yaml (~> 0.9.0)
-    diff-lcs (1.2.4)
-    httpclient (2.3.3)
-    metaclass (0.0.1)
-    mime-types (1.23)
-    mini_portile2 (2.3.0)
-    mocha (0.14.0)
+    addressable (2.6.0)
+      public_suffix (>= 2.0.2, < 4.0)
+    coderay (1.1.2)
+    coveralls (0.8.22)
+      json (>= 1.8, < 3)
+      simplecov (~> 0.16.1)
+      term-ansicolor (~> 1.3)
+      thor (~> 0.19.4)
+      tins (~> 1.6)
+    crack (0.4.3)
+      safe_yaml (~> 1.0.0)
+    diff-lcs (1.3)
+    docile (1.3.1)
+    domain_name (0.5.20180417)
+      unf (>= 0.0.5, < 1.0.0)
+    hashdiff (0.3.8)
+    http-cookie (1.0.3)
+      domain_name (~> 0.5)
+    json (2.2.0)
+    metaclass (0.0.4)
+    method_source (0.9.2)
+    mime-types (3.2.2)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2019.0331)
+    mini_portile2 (2.4.0)
+    mocha (1.8.0)
       metaclass (~> 0.0.1)
-    multi_json (1.7.7)
-    nokogiri (1.8.1)
-      mini_portile2 (~> 2.3.0)
+    netrc (0.11.0)
+    nokogiri (1.10.2)
+      mini_portile2 (~> 2.4.0)
     nori (2.6.0)
-    rake (10.0.3)
-    rest-client (1.6.7)
-      mime-types (>= 1.16)
-    rspec (2.13.0)
-      rspec-core (~> 2.13.0)
-      rspec-expectations (~> 2.13.0)
-      rspec-mocks (~> 2.13.0)
-    rspec-core (2.13.1)
-    rspec-expectations (2.13.0)
-      diff-lcs (>= 1.1.3, < 2.0)
-    rspec-mocks (2.13.1)
-    safe_yaml (0.9.3)
-    simplecov (0.7.1)
-      multi_json (~> 1.0)
-      simplecov-html (~> 0.7.1)
-    simplecov-html (0.7.1)
-    thor (0.18.1)
-    timecop (0.6.1)
-    webmock (1.11.0)
-      addressable (>= 2.2.7)
+    pry (0.12.2)
+      coderay (~> 1.1.0)
+      method_source (~> 0.9.0)
+    public_suffix (3.0.3)
+    rake (12.3.2)
+    rest-client (2.0.2)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 4.0)
+      netrc (~> 0.8)
+    rspec (3.8.0)
+      rspec-core (~> 3.8.0)
+      rspec-expectations (~> 3.8.0)
+      rspec-mocks (~> 3.8.0)
+    rspec-core (3.8.0)
+      rspec-support (~> 3.8.0)
+    rspec-expectations (3.8.2)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.8.0)
+    rspec-mocks (3.8.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.8.0)
+    rspec-support (3.8.0)
+    safe_yaml (1.0.5)
+    simplecov (0.16.1)
+      docile (~> 1.1)
+      json (>= 1.8, < 3)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.2)
+    term-ansicolor (1.7.1)
+      tins (~> 1.0)
+    thor (0.19.4)
+    timecop (0.9.1)
+    tins (1.20.2)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.5)
+    webmock (3.5.1)
+      addressable (>= 2.3.6)
       crack (>= 0.3.2)
+      hashdiff
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   coveralls
-  httpclient (~> 2.3.3)
   mocha
   ns-yapi!
+  pry
   rake
+  rest-client
   rspec
   simplecov
-  timecop (~> 0.6.1)
-  webmock (~> 1.11.0)
+  timecop
+  webmock
 
 BUNDLED WITH
-   1.16.0
+   1.17.2
