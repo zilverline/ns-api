@@ -6,20 +6,22 @@ Yet Another NS API
 ==================
 A Ruby client for the NS API.
 
-Goal
-====
+# Goal
+
 I'd like to write a comprehensive, yet very thin implementation of the NS API.
 
 Currently this gem supports
-* fetching all stations
-* fetching disruptions
-* fetching prices (you need to have a contract with NS for this)
 
-Usage
-=====
+- fetching all stations
+- fetching disruptions
+- fetching prices (you need to have a contract with NS for this)
+
+# Usage
+
 First, make sure you have a username and password from the NS API website. (at: http://www.ns.nl/api)
 
 You can use the NSYAPI singleton, you can configure it by using a configuration block:
+
 ```ruby
 require 'ns_client'
 
@@ -45,8 +47,7 @@ client = NSClient.new("my-username", "my-password")
 
 After you have created a client, you can use it for several operations
 
-Retrieve all stations
-=====================
+# Retrieve all stations
 
 ```ruby
 # get all known stations
@@ -57,7 +58,7 @@ station.lat # 51.69048
 station.long # 5.29362
 ```
 
-If you find it too tedious ploughing through all objects in the array, you can also use the ```stations_short``` method. This will return a hash with the station code as key, the
+If you find it too tedious ploughing through all objects in the array, you can also use the `stations_short` method. This will return a hash with the station code as key, the
 value is an array with the name and country of the station.
 
 ```ruby
@@ -65,9 +66,8 @@ client.stations_short
  => {"HT"=>["'s-Hertogenbosch", "NL"], "HTO"=>["Hertogenbosch O.", "NL"], "HDE"=>["'t Harde", "NL"], "AHBF"=>["Aachen", "D"], "ARE"=>["Aachen R. Erde", "D"], "ASCH"=>["Aachen Schanz", "D"], "AW"=>["Aachen-West", "D"], "ATN"=>["Aalten", "NL"], "AC"=>["Abcoude", "NL"], "EAHS"=>["Ahaus", "D"], "AIME"=>["Aime-la-Plagne", "F"], "AIXTGV"=>["Aix-en-Provence", "F"], "AKM"=>["Akkrum", "NL"], "ALBERT"=>["Albertville", "F"], "ALESS"=>["Alessandria", "I"], "AMR"=>["Alkmaar", "NL"], "AMRN"=>["Alkmaar Noord", "NL"], "AML"=>["Almelo", "NL"], "AMRI"=>["Almelo de Riet", "NL"], "ALMB"=>["Almere Buiten", "NL"], "ALM"=>["Almere C.", "NL"], "ALMM"=>["Muziekwijk", "NL"], "ALMO"=>["Oostvaarders", "NL"], "ALMP"=>["Parkwijk", "NL"], "AMPO"=>["Poort", "NL"], "APN"=>["Alphen a/d Rijn", "NL"], "EABG"=>["Altenberge", "D"], "AMF"=>["Amersfoort", "NL"], "AMFS"=>["Schothorst", "NL"]....
 ```
 
+# Retrieve disruptions
 
-Retrieve disruptions
-====================
 ```ruby
 # get all known disruptions
 disruptions = client.disruptions
@@ -85,9 +85,9 @@ disruptions = client.disruptions "Amsterdam"
 client.disruptions "bla" # NSClient::InvalidStationNameError: Could not find a station with name 'bla'
 ```
 
-Retrieve prices
-===============
-Prices can be retrieved by using a valid ```from```,```to```,```via``` parameter. You can use the name of the station or the code. (as you can see above with the stations calls)
+# Retrieve prices
+
+Prices can be retrieved by using a valid `from`,`to`,`via` parameter. You can use the name of the station or the code. (as you can see above with the stations calls)
 
 ```ruby
 # retrieving prices requires a from and to at minimum. Which assumes prices for today
@@ -109,8 +109,8 @@ prices = client.prices from: "Amsterdam", to "Purmerend"
 
 ```
 
-Prices Response data
---------------------
+## Prices Response data
+
 A prices response is an object PricesResponse, which contains tariffunits (a measurement for cost-distance) and a hash with prices.
 
 Each key in this hash is the type of prices (ie 'Dagretour', or 'Enkele reis').
@@ -135,8 +135,7 @@ dagretour_prices[0].amount # 2.40
 enkelereis_prices = prices.enkelereis
 ```
 
+## Copyright
 
-Copyright
----------
-Copyright (c) 2013 Zilverline / Stefan Hendriks.
+Copyright (c) 2019 Zilverline.
 See [LICENSE](https://github.com/zilverline/ns-api/blob/master/LICENSE.mkd) for details.
