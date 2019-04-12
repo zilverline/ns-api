@@ -11,7 +11,7 @@ describe NSClient do
     context "with valid xml" do
 
       before :each do
-        stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-stations-v2", load_fixture('stations.xml')
+        stub_ns_client_request "http://webservices.ns.nl/ns-api-stations-v2", load_fixture('stations.xml')
       end
 
       it "should return all stations" do
@@ -79,7 +79,7 @@ describe NSClient do
     context "with only newlines/spaces we can fix" do
 
       it "should return all stations" do
-        stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-stations-v2", load_fixture('stations_list_with_invalid_new_lines.xml')
+        stub_ns_client_request "http://webservices.ns.nl/ns-api-stations-v2", load_fixture('stations_list_with_invalid_new_lines.xml')
         stations = client.stations
         stations.size.should == 2
       end
@@ -107,7 +107,7 @@ describe NSClient do
     context "with mangled XML we cannot / won't fix" do
 
       it "raises an error when xml is unparseable" do
-        stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-stations-v2", load_fixture('stations_list_mangled.xml')
+        stub_ns_client_request "http://webservices.ns.nl/ns-api-stations-v2", load_fixture('stations_list_mangled.xml')
         expect { client.stations }.to raise_error(NSClient::UnparseableXMLError)
       end
 
@@ -118,7 +118,7 @@ describe NSClient do
   context "Disruptions" do
 
     it "should retrieve planned and unplanned disruptions" do
-      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?actual=true", load_fixture('disruptions.xml')
+      stub_ns_client_request "http://webservices.ns.nl/ns-api-storingen?actual=true", load_fixture('disruptions.xml')
       disruptions = client.disruptions
       disruptions.size.should == 2
       disruptions[:planned].size.should == 1
@@ -126,7 +126,7 @@ describe NSClient do
     end
 
     it "should retrieve expected planned disruption" do
-      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?actual=true", load_fixture('disruptions.xml')
+      stub_ns_client_request "http://webservices.ns.nl/ns-api-storingen?actual=true", load_fixture('disruptions.xml')
       disruptions = client.disruptions
       disruptions.size.should == 2
       planned_disruption = disruptions[:planned].first
@@ -143,7 +143,7 @@ describe NSClient do
     end
 
     it "should retrieve expected unplanned disruption" do
-      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?actual=true", load_fixture('disruptions.xml')
+      stub_ns_client_request "http://webservices.ns.nl/ns-api-storingen?actual=true", load_fixture('disruptions.xml')
       disruptions = client.disruptions
       disruptions.size.should == 2
       unplanned_disruption = disruptions[:unplanned].first
@@ -158,7 +158,7 @@ describe NSClient do
     end
 
     it "should not return disruption when empty in response" do
-      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?actual=true", load_fixture('no_disruptions.xml')
+      stub_ns_client_request "http://webservices.ns.nl/ns-api-storingen?actual=true", load_fixture('no_disruptions.xml')
       disruptions = client.disruptions
       disruptions.size.should == 2
       disruptions[:planned].size.should == 0
@@ -169,7 +169,7 @@ describe NSClient do
 
       it "should retrieve disruptions for station name" do
         # ie, for Amsterdam only (http://webservices.ns.nl/ns-api-storingen?station=Amsterdam)
-        stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?station=Amsterdam", load_fixture('disruptions_amsterdam.xml')
+        stub_ns_client_request "http://webservices.ns.nl/ns-api-storingen?station=Amsterdam", load_fixture('disruptions_amsterdam.xml')
         disruptions = client.disruptions "Amsterdam"
         disruptions.size.should == 2
         disruptions[:planned].size.should == 4
@@ -177,7 +177,7 @@ describe NSClient do
       end
 
       it "should raise an error when using invalid station name" do
-        stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-storingen?station=bla", load_fixture('disruption_invalid_station_name.xml')
+        stub_ns_client_request "http://webservices.ns.nl/ns-api-storingen?station=bla", load_fixture('disruption_invalid_station_name.xml')
         expect { client.disruptions "bla" }.to raise_error(NSClient::InvalidStationNameError, "Could not find a station with name 'bla'")
       end
     end
@@ -188,7 +188,7 @@ describe NSClient do
   context "Prices" do
 
     it "should retrieve prices for a trip" do
-      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-prijzen-v3?from=Rotterdam&to=Glanerbrug&date=17062013", load_fixture('prices.xml')
+      stub_ns_client_request "http://webservices.ns.nl/ns-api-prijzen-v3?from=Rotterdam&to=Glanerbrug&date=17062013", load_fixture('prices.xml')
       date = Date.strptime('17-06-2013', '%d-%m-%Y')
       response = client.prices from: "Rotterdam", to: "Glanerbrug", date: date
       response.class.should == NSClient::PricesResponse
@@ -200,7 +200,7 @@ describe NSClient do
     end
 
     it "should retrieve expected price data" do
-      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-prijzen-v3?from=Rotterdam&to=Glanerbrug&date=17062013", load_fixture('prices.xml')
+      stub_ns_client_request "http://webservices.ns.nl/ns-api-prijzen-v3?from=Rotterdam&to=Glanerbrug&date=17062013", load_fixture('prices.xml')
       date = Date.strptime('17-06-2013', '%d-%m-%Y')
       response = client.prices from: "Rotterdam", to: "Glanerbrug", date: date
       response.class.should == NSClient::PricesResponse
@@ -223,7 +223,7 @@ describe NSClient do
 
     it "should raise an error when from is not a valid station name" do
       date = Date.strptime('17-06-2013', '%d-%m-%Y')
-      stub_ns_client_request "http://username:password@webservices.ns.nl/ns-api-prijzen-v3?from=Amsterdam&to=Purmerend&date=17062013", load_fixture('prices_invalid_station_name.xml')
+      stub_ns_client_request "http://webservices.ns.nl/ns-api-prijzen-v3?from=Amsterdam&to=Purmerend&date=17062013", load_fixture('prices_invalid_station_name.xml')
       expect {
         client.prices from: "Amsterdam", to: "Purmerend", date: date
       }.to raise_error(NSClient::InvalidStationNameError, "'Amsterdam' is not a valid station name")
@@ -258,8 +258,7 @@ describe NSClient do
   def stub_ns_client_request(url, response)
     # headers based on "username", "password"
     stub_request(:get, url).
-        with(:headers => {'Authorization' => 'Basic dXNlcm5hbWU6cGFzc3dvcmQ='}).
-        to_return(:status => 200, :body => response, :headers => {})
+        with(headers: {'Authorization' => 'Basic dXNlcm5hbWU6cGFzc3dvcmQ='}).
+        to_return(status: 200, body: response, headers: {})
   end
-
 end

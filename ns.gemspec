@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
   gem.add_dependency 'addressable'
-  gem.add_dependency 'httpclient'
+  gem.add_dependency 'rest-client'
   gem.add_dependency 'nori'
   gem.add_dependency 'nokogiri'
 end
