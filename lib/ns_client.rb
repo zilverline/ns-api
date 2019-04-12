@@ -44,17 +44,17 @@ class NSClient
   def initialize(username, password)
     @username = username
     @password = password
-    @prices_url = PricesUrl.new("http://webservices.ns.nl/ns-api-prijzen-v3")
+    @prices_url = PricesUrl.new("https://webservices.ns.nl/ns-api-prijzen-v3")
     @last_received_raw_xml = ""
     @last_received_corrected_xml = ""
   end
 
   def stations
-    parse_stations(get_xml("http://webservices.ns.nl/ns-api-stations-v2"))
+    parse_stations(get_xml("https://webservices.ns.nl/ns-api-stations-v2"))
   end
 
   def stations_short
-    parse_stations_as_map(get_xml("http://webservices.ns.nl/ns-api-stations-v2"))
+    parse_stations_as_map(get_xml("https://webservices.ns.nl/ns-api-stations-v2"))
   end
 
   def disruptions (query = nil)
@@ -183,8 +183,8 @@ class NSClient
   end
 
   def disruption_url(query)
-    return "http://webservices.ns.nl/ns-api-storingen?station=#{query}" if query
-    "http://webservices.ns.nl/ns-api-storingen?actual=true"
+    return "https://webservices.ns.nl/ns-api-storingen?station=#{query}" if query
+    "https://webservices.ns.nl/ns-api-storingen?actual=true"
   end
 
   class PricesResponse
