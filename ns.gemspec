@@ -5,6 +5,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |gem|
   gem.name          = 'ns-yapi'
+  gem.license       = 'MIT'
   gem.version       = '0.6.0'
   gem.authors       = ['Stefan Hendriks', 'Derek Kraan', 'Bob Forma']
   gem.email         = ['info@zilverline.com']
