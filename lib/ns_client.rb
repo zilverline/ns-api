@@ -11,7 +11,7 @@ this = Pathname.new(__FILE__).realpath
 lib_path = File.expand_path('..', this)
 $LOAD_PATH.unshift(lib_path)
 
-Dir.glob(File.join(lib_path, '/**/*.rb')).each do |file|
+Dir.glob(File.join(lib_path, '/**/*.rb')).sort.each do |file|
   require file
 end
 
